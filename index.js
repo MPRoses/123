@@ -10,7 +10,7 @@ let bodyParser = require('body-parser');
 let mysql = require('mysql');
 let path = require('path');
 let ejs = require('ejs');
-let bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 
 let aantalMogelijkheden = 3;
 
@@ -22,6 +22,7 @@ let connection = mysql.createConnection({
 });
 
 let app = express();
+const port = 5001;
 
 app.set("view engine", "ejs")
 
@@ -47,6 +48,9 @@ app.get('/register', function(req, res) {
   res.render('register');
 });
 
+app.listen(port, () => {            //server starts listening for any attempts from a client to connect at port: {port}
+    console.log(`Now listening on port ${port}`); 
+})
 
 app.post('/auth', function(req, res) {
   let username = req.body.username;
@@ -104,13 +108,25 @@ app.post('/registerForm', function(req, res) {
    } else {*/
 
    if (username) {
-    connection.query('SELECT * FROM users WHERE username = ?', username, function(error, results, fields) {
+   
+    connection.query('SELECT * FROM users WHERE username = ?', [username], function(error, results, fields) {
       if (error) {
         throw error;
       }
-      if (results.length < 0) {
-              connection.query('INSERT INTO users SET ?', informatie, function(error, results, fields))
-              res.render('login')
+      console.log(results)
+      if (results.length < 1) {
+
+              bcrypt.hash(password, 10)
+              .then(hash => {
+                connection.query('INSERT INTO users SET ?', informatie, function(error, results, fields) {  
+                               
+                })              })
+              .catch(err => {
+                  console.log(err)
+              })
+        
+             
+              res.render('login', {error: 'perfect!'})
 
       } else {
          
@@ -123,6 +139,10 @@ app.post('/registerForm', function(req, res) {
 
 
 })
+
+function hashPassword(plaintextPassword) {
+ 
+}
 
 app.get('/home', function(req, res) {
   if (req.session.loggedin) {

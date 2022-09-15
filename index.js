@@ -67,14 +67,7 @@ app.post('/auth', function(req, res) {
             if(aantalMogelijkheden == 1) {
               disabled(5)
               res.render('login', { error: 
-              `<div id="onScreenCountdownContainer">
-                <p id="onScreenCountdown"></p>
-                
-                <script>
-                  document.getElementById("onScreenCountdown").innerHTML = "appelsap";
-                </script>
-
-              </div>`, disabledValue: 'disabled'})
+              `Te veel foute inlpogpogingen! kom terug over 300 seconden.`, disabledValue: 'disabled'})
           
          
                 

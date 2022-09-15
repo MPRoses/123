@@ -10,7 +10,6 @@ let bodyParser = require('body-parser');
 let mysql = require('mysql');
 let path = require('path');
 let ejs = require('ejs');
-const bcrypt = require("bcrypt");
 
 let aantalMogelijkheden = 3;
 
@@ -48,7 +47,7 @@ app.get('/register', function(req, res) {
   res.render('register');
 });
 
-app.listen(port, () => {            //server starts listening for any attempts from a client to connect at port: {port}
+app.listen(port, () => {
     console.log(`Now listening on port ${port}`); 
 })
 
@@ -66,11 +65,24 @@ app.post('/auth', function(req, res) {
 
       } else {
             if(aantalMogelijkheden == 1) {
-          res.render('login', { error: `Te veel foute inlogpogingen, kom over 5 minuten terug`, disabledValue: 'disabled'});
+              disabled(5)
+              res.render('login', { error: 
+              `<div id="onScreenCountdownContainer">
+                <p id="onScreenCountdown"></p>
+                
+                <script>
+                  document.getElementById("onScreenCountdown").innerHTML = "appelsap";
+                </script>
+
+              </div>`, disabledValue: 'disabled'})
+          
+         
+                
+
               /*hierboven de 5 veranderen naar het aantal minuten*/
          /* setTimeout(res.render('login', { error: 'appelsaus', disabledValue: 'enabled'}), 5000);*/
-            disabled(5)
-            }else {
+           
+            } else {
               aantalMogelijkheden--;  
         res.render('login', { error: 'Foute inlogpoging nog ' + aantalMogelijkheden + ' pogingen over!' }); 
             }
@@ -88,8 +100,12 @@ async function disabled(minuten) {
     setTimeout(function() {
     res.render('login', { error: 'appelsaus', disabledValue: ''})
     }, minuten * 60000); 
+    aantalMogelijkheden == 3;
   
 }
+
+
+
 
 app.post('/registerForm', function(req, res) {
   let username = req.body.username;

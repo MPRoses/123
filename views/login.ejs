@@ -31,14 +31,34 @@
       </form>
       <%= locals.error %>
       <div id="countdownContainer">
-          <p id="countDown">
-            <%= locals.countDown %>
-          </p>
+          <p id="countDown"><%= locals.countDown %></p>
       </div>
           
 
              <script>
-             
+              
+             if (document.getElementById("countDown").innerHTML.length > 20) {
+              
+              
+                  let timeOut = 300;
+                  var counter = setInterval(function(){
+                      document.getElementById("countDown").innerHTML = 'Te veel foute inlpogpogingen! Kom terug over ' + timeOut + ' seconden.';
+                      timeOut--;
+                      console.log(timeOut);
+                        if (timeOut == 0) {
+                          clearInterval(counter);
+                    }
+                  }, 1000);
+
+                  
+          
+        
+              /*setTimeout(
+              getElementById('countDown').innerHTML = 'Te veel inlogpogingen kom terug over ' + i + ' seconden terug'
+                ), 1000;*/
+               
+              }
+          
              </script>
     </div>
   </div>

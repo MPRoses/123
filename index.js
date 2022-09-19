@@ -10,10 +10,12 @@ let bodyParser = require('body-parser');
 let mysql = require('mysql');
 let path = require('path');
 let ejs = require('ejs');
+const bcrypt = require("bcrypt")
 
 let aantalMogelijkheden = 3;
 
-let connection = mysql.createConnection({
+const pool = mysql.createPool({
+  connectionLimit: 100,
   host: 'sql147.main-hosting.eu',
   user: 'u378807222_login',
   password: 'Login2022?!',
@@ -47,6 +49,14 @@ app.get('/register', function(req, res) {
   res.render('register');
 });
 
+app.get('/about-us', function(req, res) {
+  res.render('about-us');
+});
+
+app.get('/account', function(req, res) {
+  res.render('account');
+});
+
 app.listen(port, () => {
     console.log(`Now listening on port ${port}`); 
 })
@@ -54,45 +64,59 @@ app.listen(port, () => {
 app.post('/auth', function(req, res) {
   let username = req.body.username;
   let password = req.body.password;
+
   if (username && password) {
-    connection.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password],     function(error, results, fields) {
-      if (results.length > 0) {
-        req.session.loggedin = true;
-        req.session.username = username;
-        res.redirect('/home');
 
-        connection.query('UPDATE users SET online = true WHERE username = ?', [username, password],           function(error, results, field) { if (error) throw error; console.log(results); });
 
-      } else {
-            if(aantalMogelijkheden == 1) {
-              disabled(5)
-              res.render('login', { countDown: 
-              `Te veel foute inlpogpogingen! kom terug over 300 seconden.`, disabledValue: 'disabled'})
-          
+    pool.query('SELECT * FROM users WHERE username = ?', [username],     
+
+    async function(error, results, fields) {
+
+      let myHash = results[0].password;
+      console.log(myHash);
+      console.log(password);
+      bcrypt.compare(password, myHash, function(err, result) {
+        if (result) {
+
+          req.session.loggedin = true;
+          req.session.username = username;
+          res.redirect('/home');
+  
+          pool.query('UPDATE users SET online = true WHERE username = ?', [username, password],           function(error, results, field) { if (error) throw error; 
+            console.log(results); 
+          });
+
+        } else {
+
+          if(aantalMogelijkheden == 1) {
+            disabled(5)
+            res.render('login', { countDown: 
+            `Te veel foute inlpogpogingen! probeer weer over 5 seconden.`, disabledValue: 'disabled'})
+
+            /*hierboven de 5 veranderen naar het aantal minuten*/
+       /* setTimeout(res.render('login', { error: 'appelsaus', disabledValue: 'enabled'}), 5000);*/
          
-                
-
-              /*hierboven de 5 veranderen naar het aantal minuten*/
-         /* setTimeout(res.render('login', { error: 'appelsaus', disabledValue: 'enabled'}), 5000);*/
-           
-            } else {
-              aantalMogelijkheden--;  
-        res.render('login', { error: 'Foute inlogpoging nog ' + aantalMogelijkheden + ' pogingen over!' }); 
-            }
-        
-      }
-    });
+          } else {
+            aantalMogelijkheden--;  
+      res.render('login', { error: 'Foute inlogpoging nog ' + aantalMogelijkheden + ' pogingen over!' }); 
+          }
+        }
+      })
+    
+    })
+   
   } else {
-    res.send(`Vul je gebruikersnaam en wachtwoord in`);
+    res.render('login', {error: 'Lege inlogvelden' })
   }
-});
+
+})
 
 /* hierzo onder een for loop voor het updaten van de timer op de site */
-async function disabled(minuten) {
+async function disabled(seconden) {
   
     setTimeout(function() {
     res.render('login', { error: 'appelsaus', disabledValue: ''})
-    }, minuten * 60000); 
+    }, seconden * 1000); 
     aantalMogelijkheden == 3;
   
 }
@@ -104,13 +128,7 @@ app.post('/registerForm', function(req, res) {
   let username = req.body.username;
   let password = req.body.password;
   let email = req.body.email;
-  let informatie = {
-    "username": username,
-    "password": password,
-    "email": email,
-    "online": false
-  }
-
+ 
   /* if (username) {
      connection.query('SELECT * FROM users WHERE username = ?', [username], function(error, results, fields) {
       )
@@ -118,28 +136,39 @@ app.post('/registerForm', function(req, res) {
 
    if (username) {
    
-    connection.query('SELECT * FROM users WHERE username = ?', [username], function(error, results, fields) {
+    pool.query('SELECT * FROM users WHERE username = ?', [username], function(error, results, fields) {
       if (error) {
         throw error;
       }
-      console.log(results)
       if (results.length < 1) {
 
-              bcrypt.hash(password, 10)
-              .then(hash => {
-                connection.query('INSERT INTO users SET ?', informatie, function(error, results, fields) {  
-                               
-                })              })
-              .catch(err => {
-                  console.log(err)
+        bcrypt.genSalt(10, (err, salt) => {
+
+          bcrypt.hash(password, salt, function(err, hash) {
+
+            let informatie = {
+              "username": username,
+              "password": hash,
+              "email": email,
+              "online": false,
+              "salt": salt
+            }
+          
+              pool.query('INSERT INTO users SET ?', informatie, function(error, results, fields) {
+                if (error) throw error;
+                console.log(results);
+                console.log(salt);
               })
+          })
+        })
+
         
-             
-              res.render('login', {error: 'perfect!'})
+  
+          res.render('login', {error: 'perfect!'})
 
       } else {
-         
-       }
+        res.send(`Gebruikersnaam al in gebruik`);
+      }
         
     })
   } else {
@@ -149,9 +178,6 @@ app.post('/registerForm', function(req, res) {
 
 })
 
-function hashPassword(plaintextPassword) {
- 
-}
 
 app.get('/home', function(req, res) {
   if (req.session.loggedin) {

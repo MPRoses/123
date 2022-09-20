@@ -72,9 +72,9 @@ app.post('/auth', function(req, res) {
 
     async function(error, results, fields) {
 
+      
+
       let myHash = results[0].password;
-      console.log(myHash);
-      console.log(password);
       bcrypt.compare(password, myHash, function(err, result) {
         if (result) {
 
@@ -83,15 +83,15 @@ app.post('/auth', function(req, res) {
           res.redirect('/home');
   
           pool.query('UPDATE users SET online = true WHERE username = ?', [username, password],           function(error, results, field) { if (error) throw error; 
-            console.log(results); 
           });
 
         } else {
 
           if(aantalMogelijkheden == 1) {
-            disabled(5)
+            
             res.render('login', { countDown: 
-            `Te veel foute inlpogpogingen! probeer weer over 5 seconden.`, disabledValue: 'disabled'})
+            `Te veel foute inlpogpogingen! probeer weer over 5 seconden.`, disabledValue: 'disabled'});
+            disabled(5)
 
             /*hierboven de 5 veranderen naar het aantal minuten*/
        /* setTimeout(res.render('login', { error: 'appelsaus', disabledValue: 'enabled'}), 5000);*/
@@ -104,6 +104,7 @@ app.post('/auth', function(req, res) {
       })
     
     })
+   
    
   } else {
     res.render('login', {error: 'Lege inlogvelden' })
@@ -156,8 +157,6 @@ app.post('/registerForm', function(req, res) {
           
               pool.query('INSERT INTO users SET ?', informatie, function(error, results, fields) {
                 if (error) throw error;
-                console.log(results);
-                console.log(salt);
               })
           })
         })

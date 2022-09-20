@@ -6,20 +6,74 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap"         rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="/css/login.css" />
 </head>
 <body>
   <div id="container">
-    <div class="navbar">
-  
-      <a id="brandName" onclick="window.location.reload();">101<br><span>MAILZ</span></a>
+ 
 
-      <a>LOGIN</a>
-      <a href="/register">REGISTER</a>
-      <a>ABOUT US</a>
-      <a>HOME</a>
+    <div class="navbar">
+
+      <a class="navbar" id="brandName" onclick="window.location.reload();">101<br><span>MAILZ</span></a>
+
+      <div id="burger-menu">
+        <span></span>
+      </div>
+  
+      <div id="menu"> 
+        <ul>
+          <li>
+            <p onclick="">LOGIN</p>
+          </li>
+          <li>
+           <p id="register">REGISTER</p>
+          <li>
+            <p href="/about-us">ABOUT US</p>
+          </li>
+    
+        </ul>
+      </div>
     </div>
-      
+
+    <script>
+      document.getElementById("register").onclick = function () {
+        location.href = "./register";
+  
+      };
+    var burgerMenu = document.getElementById('burger-menu');
+    var overlay = document.getElementById('menu');
+    burgerMenu.addEventListener('click',function(){
+      this.classList.toggle("close");
+      overlay.classList.toggle("overlay");
+    });
+
+    </script>
+
+    <div id="backgroundImage">
+      <%- include ("./images/loginBG.svg") %>
+   </div>
+
+   <div id="heroTextBrand">
+    <h1>
+      101MAILZ
+    </h1>
+   </div>
+   <div id="heroTextSlogan">
+    <h1>
+      Your new, <br>
+      simpler mail.
+    </h1>
+   </div>
+   <div id="heroTextDescription">
+      <p>
+        No more cluttered inbox, just lean design. <br>
+        We offer email and email only platform. Enjoy  the simplest mail service available online! 
+      </p>
+   </div>
+
+
     </section>
     
     <div id="loginForm" style="padding-left: 25px;">

@@ -13,6 +13,7 @@ let ejs = require('ejs');
 const bcrypt = require("bcrypt")
 
 let aantalMogelijkheden = 3;
+let amountOfTimesDisabled = 0;
 
 const pool = mysql.createPool({
   connectionLimit: 100,
@@ -65,6 +66,14 @@ app.post('/auth', function(req, res) {
   let username = req.body.username;
   let password = req.body.password;
 
+   async function disabled(seconden) {
+    setTimeout( function() {
+      res.render('login', { countDown: 
+        '', disabledValue: ''});
+    }, seconden * 1000); 
+
+  }
+
   if (username && password) {
 
 
@@ -87,18 +96,20 @@ app.post('/auth', function(req, res) {
 
         } else {
 
-          if(aantalMogelijkheden == 1) {
-            
+          if(aantalMogelijkheden == 0) {
+            amountOfTimesDisabled++;
             res.render('login', { countDown: 
-            `Te veel foute inlpogpogingen! probeer weer over 5 seconden.`, disabledValue: 'disabled'});
-            disabled(5)
+              '', disabledValue: 'disabled', amountOfTimesDisabled: amountOfTimesDisabled });
+             
+              aantalMogelijkheden = aantalMogelijkheden + 3;
+              console.log(aantalMogelijkheden);
+      
 
-            /*hierboven de 5 veranderen naar het aantal minuten*/
-       /* setTimeout(res.render('login', { error: 'appelsaus', disabledValue: 'enabled'}), 5000);*/
-         
           } else {
-            aantalMogelijkheden--;  
+
       res.render('login', { error: 'Foute inlogpoging nog ' + aantalMogelijkheden + ' pogingen over!' }); 
+      aantalMogelijkheden--;  
+      console.log(aantalMogelijkheden);
           }
         }
       })
@@ -112,18 +123,8 @@ app.post('/auth', function(req, res) {
 
 })
 
+
 /* hierzo onder een for loop voor het updaten van de timer op de site */
-async function disabled(seconden) {
-  
-    setTimeout(function() {
-    res.render('login', { error: 'appelsaus', disabledValue: ''})
-    }, seconden * 1000); 
-    aantalMogelijkheden == 3;
-  
-}
-
-
-
 
 app.post('/registerForm', function(req, res) {
   let username = req.body.username;

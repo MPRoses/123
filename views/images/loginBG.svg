@@ -14,6 +14,8 @@
 <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_202_8"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_202_8" result="shape"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_6_57"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_6_57" result="shape"/>
 </filter>
 </defs>
 </svg>

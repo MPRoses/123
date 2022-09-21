@@ -12,7 +12,7 @@ let path = require('path');
 let ejs = require('ejs');
 const bcrypt = require("bcrypt")
 
-let aantalMogelijkheden = 3;
+let aantalMogelijkheden = 2;
 let amountOfTimesDisabled = 0;
 
 const pool = mysql.createPool({
@@ -81,7 +81,7 @@ app.post('/auth', function(req, res) {
 
     async function(error, results, fields) {
 
-      
+      if (results.length > 0 ){
 
       let myHash = results[0].password;
       bcrypt.compare(password, myHash, function(err, result) {
@@ -91,7 +91,7 @@ app.post('/auth', function(req, res) {
           req.session.username = username;
           res.redirect('/home');
   
-          pool.query('UPDATE users SET online = true WHERE username = ?', [username, password],           function(error, results, field) { if (error) throw error; 
+          pool.query('UPDATE users SET online = true WHERE username = ?', [username, password], function(error, results, field) { if (error) throw error; 
           });
 
         } else {
@@ -100,22 +100,32 @@ app.post('/auth', function(req, res) {
             amountOfTimesDisabled++;
             res.render('login', { countDown: 
               '', disabledValue: 'disabled', amountOfTimesDisabled: amountOfTimesDisabled });
-             
-              aantalMogelijkheden = aantalMogelijkheden + 3;
-              console.log(aantalMogelijkheden);
+              aantalMogelijkheden = aantalMogelijkheden + 2;
+
       
 
           } else {
 
       res.render('login', { error: 'Wrong username or password, you have ' + aantalMogelijkheden + ' attempts left!' }); 
       aantalMogelijkheden--;  
-      console.log(aantalMogelijkheden);
           }
         }
       })
+
+    } else if(aantalMogelijkheden == 0) {
+      amountOfTimesDisabled++;
+      res.render('login', { countDown: 
+        '', disabledValue: 'disabled', amountOfTimesDisabled: amountOfTimesDisabled });
+        aantalMogelijkheden = aantalMogelijkheden + 2;
+
+
+    } else {
+      res.render('login', { error: 'Wrong username or password, you have ' + aantalMogelijkheden + ' attempts left!' }); 
+      aantalMogelijkheden--;  
+    }
     
     })
-   
+
    
   } else {
     res.render('login', {error: 'Empty fields' })

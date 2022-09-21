@@ -20,6 +20,7 @@
     "jquery": "^3.6.1",
     "jsdom": "^20.0.0",
     "mysql": "^2.18.1",
+    "mysql-await": "^2.2.2",
     "node-fetch": "^3.2.6"
   }
 }

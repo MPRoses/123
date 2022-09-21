@@ -7,13 +7,13 @@ let express = require('express');
 let cookieParser = require("cookie-parser");
 let session = require('express-session');
 let bodyParser = require('body-parser');
-let mysql = require('mysql');
 let path = require('path');
 let ejs = require('ejs');
 const bcrypt = require("bcrypt")
 
 let aantalMogelijkheden = 2;
 let amountOfTimesDisabled = 0;
+let mysql = require('mysql-await');
 
 const pool = mysql.createPool({
   connectionLimit: 100,
@@ -54,8 +54,17 @@ app.get('/about-us', function(req, res) {
   res.render('about-us');
 });
 
+app.get('/homeSide', function(req, res) {
+  res.render('homeSide');
+});
+
 app.get('/account', function(req, res) {
   res.render('account');
+});
+
+app.get('/logout', function(req, res) {
+  req.session.destroy();
+  res.redirect('/');
 });
 
 app.listen(port, () => {
@@ -86,9 +95,10 @@ app.post('/auth', function(req, res) {
       let myHash = results[0].password;
       bcrypt.compare(password, myHash, function(err, result) {
         if (result) {
-
+          
           req.session.loggedin = true;
           req.session.username = username;
+          req.session.email = results[0].email;
           res.redirect('/home');
   
           pool.query('UPDATE users SET online = true WHERE username = ?', [username, password], function(error, results, field) { if (error) throw error; 
@@ -101,8 +111,6 @@ app.post('/auth', function(req, res) {
             res.render('login', { countDown: 
               '', disabledValue: 'disabled', amountOfTimesDisabled: amountOfTimesDisabled });
               aantalMogelijkheden = aantalMogelijkheden + 2;
-
-      
 
           } else {
 
@@ -118,15 +126,12 @@ app.post('/auth', function(req, res) {
         '', disabledValue: 'disabled', amountOfTimesDisabled: amountOfTimesDisabled });
         aantalMogelijkheden = aantalMogelijkheden + 2;
 
-
     } else {
       res.render('login', { error: 'Wrong username or password, you have ' + aantalMogelijkheden + ' attempts left!' }); 
       aantalMogelijkheden--;  
     }
-    
     })
 
-   
   } else {
     res.render('login', {error: 'Empty fields' })
   }
@@ -140,11 +145,6 @@ app.post('/registerForm', function(req, res) {
   let username = req.body.username;
   let password = req.body.password;
   let email = req.body.email;
- 
-  /* if (username) {
-     connection.query('SELECT * FROM users WHERE username = ?', [username], function(error, results, fields) {
-      )
-   } else {*/
 
    if (username) {
    
@@ -171,11 +171,7 @@ app.post('/registerForm', function(req, res) {
               })
           })
         })
-
-        
-  
           res.render('login', {error: 'Succesful register! Please login.'})
-
       } else {
         res.render('login', {error: 'Username is already in use, please choose another one.'})
       }
@@ -185,14 +181,29 @@ app.post('/registerForm', function(req, res) {
 
 })
 
+async function getMailz(req, res) {
+  let query = 'SELECT * FROM mailz WHERE ontvanger = ?'
+  let mailz = await pool.awaitQuery(query, [req.session.email], function(error, results, fields) {
+    if (error)
+      throw error;
+    else {
+    }
+  })
+  mailz = JSON.stringify(mailz)
+  return mailz
+}
 
-app.get('/home', function(req, res) {
-  if (req.session.loggedin) {
-    res.render('home', { gebruikersnaam: req.session.username })
-  } else {
+app.get('/home', async function(req, res, next) {
+  if (!req.session.loggedin) {
     res.send(`Log eerst in om deze pagina te zien`);
+    return;
   }
-  res.end();
+  let mailz = "";
+  mailz = await getMailz(req, res)
+  
+
+  return res.render('home', { gebruikersnaam: req.session.username, mailz: mailz });
+
 });
 
 app.listen(3000);

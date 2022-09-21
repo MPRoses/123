@@ -6,22 +6,27 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap"         rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="/css/login.css" />
+  <link rel="stylesheet" type="text/css" href="/css/home.css" />
 </head>
 <body>
   <div id="container">
     <div class="navbar">
   
       <a id="brandName" onclick="window.location.reload();">101<br><span>MAILZ</span></a>
-
-      <a href="/">LOG OUT</a>
+      <a href="/logout">LOG OUT</a>
       <a href="/account">ACCOUNT SETTINGS</a>
       <a href="/about-us">ABOUT US</a>
       <a href="/home">HOME</a>
       
     </div>
+    <div id="mail-container">
+
+    </div>
       
-    </section>
+    <div id="mailz">
+      <%= locals.mailz %>
+  </div>
+
    
   </div>
   <br>

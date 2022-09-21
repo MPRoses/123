@@ -1,0 +1,72 @@
+body {
+    background: white;
+    padding: 0; margin: 0;
+    width: 100vw; height: 100vh;
+    overflow: hidden;
+  }
+  
+  input {
+    display: block;
+  }
+  
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Aboreto&display=swap');
+  
+  #loginText {
+    font-family: Inter;
+    font-weight: 200;
+    text-align: center;
+    color: #FFF;
+  }
+  
+  #loginText span {
+    font-weight: 200;
+    color: red;
+  }
+  
+  
+  .navbar {
+    overflow: hidden;
+  }
+  
+  .navbar a {
+    float: right;
+    padding: 40px 30px;
+    text-align: center;
+    font-family: Roboto Condensed;
+    font-weight: 700;
+    font-size: 1.2vw;
+    text-decoration: none;
+    color: #404040;
+  }
+  
+  #brandName {
+    font-family: Inter;
+    font-weight: 700;
+    float: left;
+    padding: 50px 0 0 50px;
+    font-size: 5vw;
+    line-height: 1.5vw;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+  }
+  
+  #brandName span {
+    font-family: Inter;
+    font-weight: 200;
+    font-size: 1.5vw;
+    text-align: center;
+  }
+
+  #mail-container {
+    width: 80vw; height: 91vh;
+    background-color: #dadada;
+    opacity: 0.5;
+    position: absolute;
+    right: 2vw;
+    top:5vh;
+    border-radius: 3em;
+  }

@@ -4,355 +4,323 @@ body {
   background-image: url("../../views/images/loginBG.svg");
   max-width: 100vw;
   height: 100vh;
- 
+  overflow: hidden;
   background-color: #EAE2B7;
 }
-
 input {
   display: block;
 }
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Aboreto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&display=swap');
-
 #loginText {
-  font-family: Inter;
-  font-weight: 200;
-  text-align: center;
-  color: #FFF;
+	font-family: Inter;
+	font-weight: 200;
+	text-align: center;
+	color: #FFF;
 }
-
 #loginText span {
-  font-weight: 200;
-  color: red;
+	font-weight: 200;
+	color: red;
 }
-
-
 .navbar {
-  overflow: hidden;
+	overflow: hidden;
 }
-
 .navbar a {
-  float: right;
-  padding: 50px 30px;
-  text-align: center;
-  font-family: Roboto Condensed;
-  font-weight: 700;
-  font-size: 1.2vw;
-  text-decoration: none;
-  
-  color: white;
-
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+	float: right;
+	padding: 50px 30px;
+	text-align: center;
+	font-family: Roboto Condensed;
+	font-weight: 700;
+	font-size: 1.2vw;
+	text-decoration: none;
+	color: white;
+	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
-
 #navbarLogo {
-  position: absolute;
-  padding-left: 3vw;
-  top: -25vh;
-  
+	position: absolute;
+	padding-left: 3vw;
+	top: -25vh;
 }
-
 #brandName {
-  font-family: Inter;
-  font-weight: 700;
-  float: left;
-  padding: 50px 0 0 50px;
-  font-size: 5vw;
-  line-height: 1.5vw;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  user-select: none;
+	font-family: Inter;
+	font-weight: 700;
+	float: left;
+	padding: 50px 0 0 50px;
+	font-size: 5vw;
+	line-height: 1.5vw;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 }
-
 #brandName span {
-  font-family: 'Reem Kufi';
-  font-weight: 400;
-  font-size: 1.5vw;
-  text-align: center;
-  color: #FFFFFF;
-
-  opacity: 0.87;
-
+	font-family: 'Reem Kufi';
+	font-weight: 400;
+	font-size: 1.5vw;
+	text-align: center;
+	color: #FFFFFF;
+	opacity: 0.87;
 }
-
 #register:hover {
-  cursor: pointer;
+	cursor: pointer;
 }
-
 #backgroundImage {
-  position: absolute;
-  top: 18.5%;
-  z-index: -50;
+	position: absolute;
+	top: 18.5%;
+	z-index: -50;
 }
-
 #heroTextBrand {
-  color: #FFFFFF;
-
-  position: relative;
-  top: 35vh;
-  margin-left: 3vw;
-
-  font-family: 'Reem Kufi';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 20px;
-  display: flex;
-  align-items: center;
-  letter-spacing: 0.28em;
-
+	color: #FFFFFF;
+	position: relative;
+	top: 35vh;
+	margin-left: 3vw;
+	font-family: 'Reem Kufi';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 20px;
+	display: flex;
+	align-items: center;
+	letter-spacing: 0.28em;
 }
-
 #heroTextSlogan {
-  color: #FFFFFF;
-
-  position: relative;
-  top: 23vh;
-  margin-left: 3vw;
-
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 70px;
-  line-height: 152px;
-  display: flex;
-  align-items: center;
-
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-
+	color: #FFFFFF;
+	position: relative;
+	top: 23vh;
+	margin-left: 3vw;
+	font-family: 'Roboto';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 70px;
+	line-height: 152px;
+	display: flex;
+	align-items: center;
+	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
-
-
 #heroTextDescription {
-  color: #FFFFFF;
-
-  position: relative;
-  top: 12vh;
-  margin-left: 3vw;
-
-  font-family: 'Reem Kufi';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 45px;
-  display: flex;
-  align-items: center;
-
+	color: #FFFFFF;
+	position: relative;
+	top: 12vh;
+	margin-left: 3vw;
+	font-family: 'Reem Kufi';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 30px;
+	line-height: 45px;
+	display: flex;
+	align-items: center;
 }
-
 /* code for burger menu */
-
 #burger-menu {
-  cursor: pointer;
-  height: 27px;
-  width: 27px;
-  margin: 50px;
-  overflow: visible;
-  position: relative;
-  z-index:2;
-  float: right;
+	cursor: pointer;
+	height: 27px;
+	width: 27px;
+	margin: 50px;
+	overflow: visible;
+	position: relative;
+	z-index:52;
+	float: right;
 }
-#burger-menu span,
-#burger-menu span:before,
-#burger-menu span:after {
-  background: #fff;
-  display: block;
-  height: 4px;
-  opacity: 1;
-  position: absolute;
-  transition: 0.3s ease-in-out;
+#burger-menu span,#burger-menu span:before,#burger-menu span:after {
+	background: #fff;
+	display: block;
+	height: 4px;
+	opacity: 1;
+	position: absolute;
+	transition: 0.3s ease-in-out;
 }
-#burger-menu span:before,
-#burger-menu span:after {
-  content: "";
+#burger-menu span:before,#burger-menu span:after {
+	content: "";
 }
 #burger-menu span {
-  right: 0px;
-  top: 13px;
-  width: 27px;
+	right: 0px;
+	top: 13px;
+	width: 27px;
 }
 #burger-menu span:before {
-  left: 0px;
-  top: -10px;
-  width: 16px;
+	left: 0px;
+	top: -10px;
+	width: 16px;
 }
 #burger-menu span:after {
-  left: 0px;
-  top: 10px;
-  width: 20px;
+	left: 0px;
+	top: 10px;
+	width: 20px;
 }
-
 #burger-menu.close span {
-  transform: rotate(-45deg);
-  top: 13px;
-  width: 27px;
+	transform: rotate(-45deg);
+	top: 13px;
+	width: 27px;
 }
 #burger-menu.close span:before {
-  top: 0px;
-  transform: rotate(90deg);
-  width: 27px;
+	top: 0px;
+	transform: rotate(90deg);
+	width: 27px;
 }
 #burger-menu.close span:after {
-  top: 0px;
-  left:0;
-  transform: rotate(90deg);
-  opacity:0;
-  width:0;
+	top: 0px;
+	left:0;
+	transform: rotate(90deg);
+	opacity:0;
+	width:0;
 }
-
 #menu {
-  z-index:50;
-  min-width:100%;
-  min-height:100%;
-  position: absolute;
-  top:0;
-  height:0;
-  visibility: hidden;
-  opacity: 0;
-  text-align:center;
-  padding-top:20px;
-  max-width: 50px;
-  transition: all 0.3s ease-in-out;
-  text-align: center;
-  font-family: Roboto Condensed;
-  font-weight: 700;
-  font-size: 3vw;
-  text-decoration: none;
-  color: white;
-  
+	z-index:50;
+	min-width:100%;
+	min-height:100%;
+	position: absolute;
+	top:0;
+	height:0;
+	visibility: hidden;
+	opacity: 0;
+	text-align:center;
+	padding-top:20px;
+	max-width: 50px;
+	transition: all 0.3s ease-in-out;
+	text-align: center;
+	font-family: Roboto Condensed;
+	font-weight: 700;
+	font-size: 3vw;
+	text-decoration: none;
+	color: white;
 }
-
 #ellipse {
-  position: absolute;
-  right: 5vw;
-  top: 23vh;
+	position: absolute;
+	right: 5vw;
+	top: 23vh;
 }
-
+#heroTextEllipse {
+	color: #FFFFFF;
+	position: absolute;
+	top: -7.5vh;
+  margin-right: 2vw;
+	font-family: 'Reem Kufi';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 35px;
+	display: flex;
+	align-items: center;
+	letter-spacing: 0.28em;
+}
 #menu.overlay{
-  visibility: visible;
-  opacity: 1;
-  padding-top:100px;
-  background:rgba(0,0,0,0.5);
+	visibility: visible;
+	opacity: 1;
+	padding-top:100px;
+	background:rgba(0,0,0,0.5);
 }
-
 #menu li{
-  list-style:none;
+	list-style:none;
 }
 #menu a{
-  color:#fff;
-  display:block;
-  font-size: 32px;
-  margin-bottom:30px;
-  text-decoration:none;
+	color:#fff;
+	display:block;
+	font-size: 32px;
+	margin-bottom:30px;
+	text-decoration:none;
 }
-
 .login-page {
-  width: 700px;
-  padding: 8% 0 0;
-  margin: auto;
+	width: 700px;
+	padding: 8% 0 0;
+	margin: auto;
 }
-
 .form {
-  position: absolute;
-  z-index: 1;
-  background: transparent;
-  margin: 0 auto 100px;
-  padding: 45px;
-  text-align: center;
-  width: 400px;
-  right: 7.7vw;
-  top: 40vh;
-
+	position: absolute;
+	z-index: 1;
+	background: transparent;
+	margin: 0 auto 100px;
+	padding: 45px;
+	text-align: center;
+	width: 400px;
+	right: 7.7vw;
+	top: 40vh;
 }
-
 .form input {
-  font-family: "Reem Kufi", IMPACT;
-  outline: 0;
-  background: #f2f2f2;
-  width: 100%;
-  border: 0;
-  margin: 0 0 15px;
-  padding: 15px;
-  box-sizing: border-box;
-  font-size: 14px;
-  text-align: center;
+	font-family: "Reem Kufi", IMPACT;
+	outline: 0;
+	background: #f2f2f2;
+	width: 100%;
+	border: 0;
+	margin: 0 0 15px;
+	padding: 15px;
+	box-sizing: border-box;
+	font-size: 14px;
+	text-align: center;
+  border-radius: 25px;
 }
 .form button {
-  font-family: "Reem Kufi", IMPACT;
-  text-transform: uppercase;
-  outline: 0;
-  background: #EAE2B7;
-  width: 100%;
-  border: 0;
-  padding: 15px;
-  color: #FFFFFF;
-  font-size: 14px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
+	font-family: "Reem Kufi", IMPACT;
+	text-transform: uppercase;
+	outline: 0;
+	background: #EAE2B7;
+	width: 100%;
+	border: 0;
+	padding: 15px;
+	color: #FFFFFF;
+	font-size: 14px;
+	-webkit-transition: all 0.3 ease;
+	transition: all 0.3s ease-in-out;
+	cursor: pointer;
+  border-radius: 25px;
 }
 .form button:hover,.form button:active{
-  background: #43A047;
+	background: #43A047;
 }
-
 .form button:disabled {
-  background: #EF3B3A;
-  cursor: default;
+	background: #EF3B3A;
+	cursor: default;
 }
 .message {
-  font-family: "Reem Kufi", IMPACT;
-
+	font-family: "Reem Kufi", IMPACT;
 }
-.form .message a:hover  {
-  color: #43A047;
+.form .message a:hover {
+	color: #43A047;
 }
 .form .message {
-  margin: 15px 0 0;
-  color: white;
-  font-size: 12px;
+	margin: 15px 0 0;
+	color: white;
+	font-size: 12px;
 }
 .form .message a {
-  color: #EAE2B7;
-  text-decoration: none;
-  transition: all 0.3s ease-in-out;
+	color: #EAE2B7;
+	text-decoration: none;
+	transition: all 0.3s ease-in-out;
 }
 .form .register-form {
-  display: none;
+	display: none;
 }
 .container {
-  position: relative;
-  max-width: 720px;
-  margin: 0 auto;
+	position: relative;
+	max-width: 720px;
+	margin: 0 auto;
 }
 .container:before, .container:after {
-  content: "";
-  display: block;
-  clear: both;
+	content: "";
+	display: block;
+	clear: both;
 }
 .container .info {
-  margin: 50px auto;
-  text-align: center;
+	margin: 50px auto;
+	text-align: center;
 }
 .container .info h1 {
-  margin: 0 0 15px;
-  padding: 0;
-  font-size: 36px;
-  font-weight: 300;
-  color: #1a1a1a;
+	margin: 0 0 15px;
+	padding: 0;
+	font-size: 36px;
+	font-weight: 300;
+	color: #1a1a1a;
 }
 .container .info span {
-  color: #4d4d4d;
-  font-size: 12px;
+	color: #4d4d4d;
+	font-size: 12px;
 }
 .container .info span a {
-  color: #000000;
-  text-decoration: none;
+	color: #000000;
+	text-decoration: none;
 }
 .container .info span .fa {
-  color: #EF3B3A;
+	color: #EF3B3A;
 }

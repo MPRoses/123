@@ -107,7 +107,7 @@ app.post('/auth', function(req, res) {
 
           } else {
 
-      res.render('login', { error: 'Foute inlogpoging nog ' + aantalMogelijkheden + ' pogingen over!' }); 
+      res.render('login', { error: 'Wrong username or password, you have ' + aantalMogelijkheden + ' attempts left!' }); 
       aantalMogelijkheden--;  
       console.log(aantalMogelijkheden);
           }
@@ -118,7 +118,7 @@ app.post('/auth', function(req, res) {
    
    
   } else {
-    res.render('login', {error: 'Lege inlogvelden' })
+    res.render('login', {error: 'Empty fields' })
   }
 
 })
@@ -164,15 +164,15 @@ app.post('/registerForm', function(req, res) {
 
         
   
-          res.render('login', {error: 'perfect!'})
+          res.render('login', {error: 'Succesful register! Please login.'})
 
       } else {
-        res.send(`Gebruikersnaam al in gebruik`);
+        res.send(`Username is already in use, please choose another one`);
       }
         
     })
   } else {
-    res.send(`Vul je gebruikersnaam en wachtwoord in`);
+    res.send(`Enter your username and password`);
   }
 
 

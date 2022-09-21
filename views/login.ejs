@@ -78,6 +78,9 @@
  
 </div>
   <div class="form">
+    <div id="heroTextEllipse">
+      <h1>LOGIN OR REGISTER HERE</h1>
+    </div>
     <form class="register-form" action="registerForm" method="post">
       <input type="text" name="username" placeholder="Enter new username" required> 
       <input type="password" name="password" placeholder="Enter new password" required>
@@ -90,14 +93,16 @@
       <input type="password" name="password" placeholder="password" required>
       <button id="loginButton">login</button>
   
-      <p class="message">Not registered? <a href="#" class="registerTag">Create an account</a></p>
+      <p class="message">Not registered? <a href="#">Create an account</a></p>
     </form>
-    
-    <%= locals.error %>
-
+    <p class="message">
+      <%= locals.error %>
+    </p>
     <div id="countdownContainer">
-      <p id="countDown"><%= locals.countDown %></p>
+      <p class="message"id="countDown"><%= locals.countDown %></p>
   </div>
+
+  
   <button id="disableForms" style="display: none" <%= locals.disabledValue %>>empty
   </button>
   <p id="amountOfTimesDisabled" style="opacity: 0;" >
@@ -137,7 +142,7 @@ var burgerMenu = document.getElementById('burger-menu');
           console.log(timeOut);
 
           var counter = setInterval(function(){
-          document.getElementById("countDown").innerHTML = 'Te veel foute inlpogpogingen! Kom terug over ' + timeOut + ' seconden.';
+          document.getElementById("countDown").innerHTML = 'Wrong username or password, please wait ' + timeOut + ' seconds.';
           timeOut--;
           console.log(timeOut);
             if (timeOut == -1) {

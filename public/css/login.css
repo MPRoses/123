@@ -113,7 +113,6 @@ input {
 	display: flex;
 	align-items: center;
 }
-/* code for burger menu */
 #burger-menu {
 	cursor: pointer;
 	height: 27px;
@@ -123,6 +122,18 @@ input {
 	position: relative;
 	z-index:52;
 	float: right;
+	display: none;
+}
+#close-icon {
+	cursor: pointer;
+	margin: 50px;
+	top: -2.5vh;
+	right: 0vh;
+	overflow: visible;
+	position: absolute;
+	z-index:52;
+	filter: invert(100%);
+
 }
 #burger-menu span,#burger-menu span:before,#burger-menu span:after {
 	background: #fff;
@@ -155,12 +166,12 @@ input {
 	top: 13px;
 	width: 27px;
 }
-#burger-menu.close span:before {
+#burger-menu.close span:after {
 	top: 0px;
 	transform: rotate(90deg);
 	width: 27px;
 }
-#burger-menu.close span:after {
+#burger-menu.close span:before {
 	top: 0px;
 	left:0;
 	transform: rotate(90deg);
@@ -168,6 +179,26 @@ input {
 	width:0;
 }
 #menu {
+	z-index:50;
+	min-width:100%;
+	min-height:100%;
+	position: absolute;
+	top:0;
+	height:0;
+	visibility: hidden;
+	opacity: 0;
+	text-align:center;
+	padding-top:20px;
+	max-width: 50px;
+	transition: all 0.3s ease-in-out;
+	text-align: center;
+	font-family: Roboto Condensed;
+	font-weight: 700;
+	font-size: 3vw;
+	text-decoration: none;
+	color: white;
+}
+#TOSMenu {
 	z-index:50;
 	min-width:100%;
 	min-height:100%;
@@ -324,3 +355,5 @@ input {
 .container .info span .fa {
 	color: #EF3B3A;
 }
+
+

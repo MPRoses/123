@@ -20,19 +20,20 @@
 </head>
 <body>
   <div id="container">
+    <div id="burger-menu">
+      <span></span>
+    </div>
     <div class="navbar">
       <a class="navbar" id="brandName" onclick="window.location.reload();">101<br><span>MAILZ</span></a>
-      <div id="burger-menu">
-        <span></span>
-      </div>
       <div id="menu"> 
+        <div id="close-icon">
+          <%- include ("./images/close-icon.svg") %>
+        </div>
         <ul>
           <li>
-            <p onclick="">ja</p>
+            <p id="register">TERMS OF SERVICE</p>
           <li>
-           <p id="register">ik vind 't leuk om dit te doen</p>
-          <li>
-            <p id="about-us">dus vandaar</p>
+           <p class="message" style="max-width: 400px; font-size: 3px; position: absolute; left: 40.5vw;">By signing up for and/or otherwise accessing any of the services or products offered by 101Mailz you agree to be bound by the terms and conditions of this Agreement. Please carefully read these terms and conditions as they describe your legal rights and obligations. THESE TERMS & CONDITIONS SUPERSEDE ALL EARLIER VERSIONS AND REQUIRE MANDATORY ARBITRATION OF DISPUTES. This Agreement shall become come effective as of the date of (1) your electronic signature accepting this Agreement, (2) the activation or use of your account or (3) your receipt of an e-mail from 101Mailz confirming your order, whichever happens first. EITHER YOU OR 101Mailz MAY TERMINATE THIS AGREEMENT AT ANY TIME, AFTER WHICH ANY AND ALL E-MAILS OR DATA ASSOCIATED WITH YOUR ACCOUNT MAY BE DELETED. ANY AND ALL OUTSTANDING FEES SHALL BE DUE AND PAYABLE UPON TERMINATION, ALL AS MORE FULLY DESCRIBED IN SECTION 2. THESE TERMS AND CONDITIONS SUPERSEDE ALL EARLIER VERSIONS. IF YOU DO NOT AGREE TO THESE TERMS AND CONDITIONS DO NOT USE THE 101Mailz SERVICES. bla bla bla</p>
           </li>
         </ul>
       </div>
@@ -67,8 +68,13 @@
     </div>
     <form class="register-form" action="registerForm" method="post">
       <input type="text" name="username" placeholder="Enter new username" required> 
-      <input type="password" name="password" placeholder="Enter new password" required>
+      <input type="password" name="password" title="Password must be 6 characters including 1 uppercase letter, 1 lowercase letter and numeric characters" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" placeholder="Enter new password" required>
       <input type="text" name="email" placeholder="Enter new email address"/>
+      <div>
+        <p class="message" id="termsOfServiceText" style="text-decoration: underline">Terms Of Service</p>
+        <input type="checkbox" id="termsofservice" name="termsofservice" required>
+      </div>
+    
       <button id="registerButton">register</button>
       <p class="message">Already registered? <a href="#">Sign In</a></p>
     </form>
@@ -99,9 +105,16 @@ document.getElementById("register").onclick = function () {
   location.href = "./register";
 };
 
-var burgerMenu = document.getElementById('burger-menu');
+var burgerMenu = document.getElementById('close-icon');
   var overlay = document.getElementById('menu');
   burgerMenu.addEventListener('click',function(){
+    this.classList.toggle("close");
+    overlay.classList.toggle("overlay");
+  });
+
+  var termsOfServiceText = document.getElementById('termsOfServiceText');
+  var overlay = document.getElementById('menu');
+  termsOfServiceText.addEventListener('click',function(){
     this.classList.toggle("close");
     overlay.classList.toggle("overlay");
   });

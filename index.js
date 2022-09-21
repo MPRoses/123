@@ -177,14 +177,11 @@ app.post('/registerForm', function(req, res) {
           res.render('login', {error: 'Succesful register! Please login.'})
 
       } else {
-        res.send(`Username is already in use, please choose another one`);
+        res.render('login', {error: 'Username is already in use, please choose another one.'})
       }
         
     })
-  } else {
-    res.send(`Enter your username and password`);
   }
-
 
 })
 

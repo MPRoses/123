@@ -71,17 +71,21 @@ app.listen(port, () => {
     console.log(`Now listening on port ${port}`); 
 })
 
+
 app.post('/auth', function(req, res) {
   let username = req.body.username;
   let password = req.body.password;
 
-   async function disabled(seconden) {
+  async function disabled(seconden) {
     setTimeout( function() {
       res.render('login', { countDown: 
         '', disabledValue: ''});
+    
     }, seconden * 1000); 
-
+  
   }
+  
+  
 
   if (username && password) {
 
@@ -108,10 +112,10 @@ app.post('/auth', function(req, res) {
 
           if(aantalMogelijkheden == 0) {
             amountOfTimesDisabled++;
+            aantalMogelijkheden++;
             res.render('login', { countDown: 
               '', disabledValue: 'disabled', amountOfTimesDisabled: amountOfTimesDisabled });
-              aantalMogelijkheden = aantalMogelijkheden + 2;
-
+        
           } else {
 
       res.render('login', { error: 'Wrong username or password, you have ' + aantalMogelijkheden + ' attempts left!' }); 
@@ -122,10 +126,10 @@ app.post('/auth', function(req, res) {
 
     } else if(aantalMogelijkheden == 0) {
       amountOfTimesDisabled++;
+      aantalMogelijkheden++;
       res.render('login', { countDown: 
         '', disabledValue: 'disabled', amountOfTimesDisabled: amountOfTimesDisabled });
-        aantalMogelijkheden = aantalMogelijkheden + 2;
-
+        
     } else {
       res.render('login', { error: 'Wrong username or password, you have ' + aantalMogelijkheden + ' attempts left!' }); 
       aantalMogelijkheden--;  
@@ -173,7 +177,7 @@ app.post('/registerForm', function(req, res) {
         })
           res.render('login', {error: 'Succesful register! Please login.'})
       } else {
-        res.render('login', {error: 'Username is already in use, please choose another one.'})
+        res.render('login', {errorOnRegisterForm: 'Username is already in use, please choose another one.'})
       }
         
     })

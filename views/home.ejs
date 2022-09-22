@@ -10,16 +10,24 @@
 </head>
 <body>
   <div id="container">
-    <div class="navbar">
-  
-      <a id="brandName" onclick="window.location.reload();">101<br><span>MAILZ</span></a>
-      <a href="/logout">LOG OUT</a>
-      <a href="/account">ACCOUNT SETTINGS</a>
-      <a href="/about-us">ABOUT US</a>
-      <a href="/home">HOME</a>
-      
-    </div>
+
     <div id="mail-container">
+
+    </div>
+    <div id="left-container">
+      
+      <div class="navbar">
+
+        <a href="/logout">LOG OUT</a>
+        <a href="/account">ACCOUNT SETTINGS</a>
+        <a href="/about-us">ABOUT US</a>
+        <a href="/home">HOME</a>
+        
+      </div>
+
+      <div id="settings-gear">
+        <%- include ("./images/setting-gear.svg") %>
+      </div>
 
     </div>
       
@@ -29,6 +37,5 @@
 
    
   </div>
-  <br>
-  <b style = "margin-left: 50px">Welkom KUT</b>
+
 </body>

@@ -84,8 +84,6 @@ app.post('/auth', function(req, res) {
     }, seconden * 1000); 
   
   }
-  
-  
 
   if (username && password) {
 
@@ -132,7 +130,7 @@ app.post('/auth', function(req, res) {
         
     } else {
       res.render('login', { error: 'Wrong username or password, you have ' + aantalMogelijkheden + ' attempts left!' }); 
-      aantalMogelijkheden--;  
+      aantalMogelijkheden--;
     }
     })
 

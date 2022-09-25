@@ -16,6 +16,9 @@
   </script>
 </head>
 <body>
+  <script>
+
+  </script>
 <div class="dashboard">
   <div class="left">
     <div class="sidebar">
@@ -127,7 +130,7 @@
       </div>
       <div class="message">
         <div class="mes-date">
-          Dec 1, 2018
+          September 25, 2022
         </div>
         <div class="title">
          email title
@@ -166,22 +169,19 @@
     mailz = JSON.parse(mailz);
     console.log(mailz.length);
 
-    for(let i = 0; i < mailz.length; i++) {
-    function showContentOfItem() {
-      let emailMessage = mailz[0].bericht;
-      document.getElementById('message-mail').innerHTML = emailMessage;
-    }
-  }
+
     $(document).ready(function() {
+
       for(let i = 0; i < mailz.length; i++) {
         $('#megaScript').prepend('function showContentOfItem'+ i +'(){let emailMessage=mailz['+ i +'].bericht;document.getElementById("message-mail").innerHTML=emailMessage;}')
-     }
+      }
+
       for(let i = 0; i < mailz.length; i++) {
         let emailSender = mailz[i].afzender;
         let emailSubject = mailz[i].onderwerp;
         let emailTimeSend = new Date(mailz[i].tijd);
         let emailID = mailz[i].IDmail;
-        $('#scroll-cards').prepend('<div onclick="showContentOfItem' + i + '" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><label class="checkbox"><input type="checkbox"/></label><div class="star"><img src="https://i.ibb.co/SN5SJ8x/star.png"/></div><div class="star"><img src="https://i.ibb.co/FW9tsHK/attachment.png" /></div></div><div class="date">' + (emailTimeSend.getUTCHours() + 2) + ':' + (emailTimeSend.getUTCMinutes()) +'</div></div><div></div></div>');
+        $('#scroll-cards').prepend('<div onclick="showContentOfItem' + i + '()" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><label class="checkbox"><input type="checkbox"/></label><div class="star"><img src="https://i.ibb.co/SN5SJ8x/star.png"/></div><div class="star"><img src="https://i.ibb.co/FW9tsHK/attachment.png" /></div></div><div class="date">' + (emailTimeSend.getUTCHours() + 2) + ':' + (emailTimeSend.getUTCMinutes()) +'</div></div><div></div></div>');
         
       }
 

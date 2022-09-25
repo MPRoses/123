@@ -9,7 +9,8 @@ let session = require('express-session');
 let bodyParser = require('body-parser');
 let path = require('path');
 let ejs = require('ejs');
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
+var $ = require('jquery');
 
 let aantalMogelijkheden = 2;
 let amountOfTimesDisabled = 0;
@@ -202,6 +203,7 @@ app.get('/home', async function(req, res, next) {
   }
   let mailz = "";
   mailz = await getMailz(req, res)
+  console.log(mailz);
   
 
   return res.render('home', { gebruikersnaam: req.session.username, mailz: mailz });

@@ -16,9 +16,6 @@
   </script>
 </head>
 <body>
-  <script>
-
-  </script>
 <div class="dashboard">
   <div class="left">
     <div class="sidebar">
@@ -35,7 +32,6 @@
           <img src="https://i.ibb.co/zGtDpcp/map.png" />
         </div-->
         <div class="profile">
-          <img src="https://www.seekclipart.com/clipng/middle/103-1032140_graphic-transparent-1-vector-flat-small-user-icon.png" />
         </div>
       </div>
     </div>
@@ -44,7 +40,8 @@
         <div>
           <a class="brand-name" onclick="window.location.reload();">101<br><span>MAILZ</span></a>
         </div>
-        <button class="compose">Compose Mail
+        <button class="compose" onclick="composeMail()">
+          Compose Mail
           <span class="plus">
             <img src="https://i.ibb.co/v1HxGWj/add-1.png"/></span></button>
         <div class="folders">Folders</div>
@@ -81,12 +78,8 @@
             </div>
             <img src="https://i.ibb.co/vz4HYJb/envelope.png" />
             <img src="https://i.ibb.co/52Vkq4M/earth-globe.png" />
-            <div class="icon-name5"> English </div>
+            <div class="icon-name5">Logout</div>
           </div>
-        </div>
-        <div class="profile2">
-          <img src="https://www.seekclipart.com/clipng/middle/103-1032140_graphic-transparent-1-vector-flat-small-user-icon.png" />
-          <div class="icon-name5">Username</div>
         </div>
       </div>
       <hr class="new-hr">
@@ -125,21 +118,19 @@
     </div>
     <div class="right-body">
       <div class="scroll-cards" id="scroll-cards">
-
-    
       </div>
-      <div class="message">
-        <div class="mes-date">
+      <div class="message" id="message">
+        <div class="mes-date" id="message-date">
           September 25, 2022
         </div>
-        <div class="title">
+        <div class="title" id="message-title">
          email title
           <div class="title-icons">
 
           </div>
         </div>
-        <div class="from">
-          <span class="who">From: </span>sender@sender.com
+        <div class="from" id="message-from">
+         
         </div>
         <div class="message-from">
           <p id="message-mail"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, voluptas pariatur repellat veritatis atque, tempora quasi quas facere impedit aliquam libero qui iure cumque incidunt facilis soluta necessitatibus laboriosam nemo. Delectus architecto
@@ -158,6 +149,16 @@
              </span>
         </button>
       </div>
+      <div class="message" id="sendMail" style="display: none">
+          <form action="sendMail" method="post">
+            <input type="text" name="receiver" placeholder="Receiver" required>
+            <input type="text" name="subject"
+            placeholder="Subject of email" required>
+            <input type="text" name="message"
+            placeholder="Message of email" requ>
+            <button>SEND THE MAILLLL</button>
+          </form>
+      </div>
     </div>
   </div>
   <div style="display: none" id="mailz">
@@ -169,24 +170,50 @@
     mailz = JSON.parse(mailz);
     console.log(mailz.length);
 
+    function composeMail() {
+      document.getElementById('message').style.display = "none";
+      document.getElementById('sendMail').style.display = "block";
+    }
 
+    function showContentOfItem(i) {
+      document.getElementById('message').style.display = "block";
+      document.getElementById('sendMail').style.display = "none";
+      let emailMessage = mailz[i].bericht;
+      let emailSender = mailz[i].afzender;
+      let emailSubject = mailz[i].onderwerp;
+      let emailTimeSend = new Date(mailz[i].tijd);
+
+      document.getElementById("message-mail").innerHTML = emailMessage;
+      document.getElementById("message-from").innerHTML = emailSender;
+      document.getElementById("message-title").innerHTML = emailSubject;
+      document.getElementById("message-date").innerHTML = (emailTimeSend.getUTCDay() + '/' + emailTimeSend.getUTCMonth() + '   ' + (emailTimeSend.getUTCHours() + 4) + ':' + (emailTimeSend.getUTCMinutes()));
+    }
+
+    let mailzLength = (mailz.length - 1);
+    let emailMessage = mailz[mailzLength].bericht;
+    let emailSender = mailz[mailzLength].afzender;
+    let emailSubject = mailz[mailzLength].onderwerp;
+    let emailTimeSend = new Date(mailz[mailzLength].tijd);
+
+    document.getElementById("message-mail").innerHTML = emailMessage;
+    document.getElementById("message-from").innerHTML = emailSender;
+    document.getElementById("message-title").innerHTML = emailSubject;
+    document.getElementById("message-date").innerHTML = (emailTimeSend.getUTCDay() + '/' + emailTimeSend.getUTCMonth() + '   ' + (emailTimeSend.getUTCHours() + 4) + ':' + (emailTimeSend.getUTCMinutes()));
+    
     $(document).ready(function() {
-
-      for(let i = 0; i < mailz.length; i++) {
-        $('#megaScript').prepend('function showContentOfItem'+ i +'(){let emailMessage=mailz['+ i +'].bericht;document.getElementById("message-mail").innerHTML=emailMessage;}')
-      }
 
       for(let i = 0; i < mailz.length; i++) {
         let emailSender = mailz[i].afzender;
         let emailSubject = mailz[i].onderwerp;
         let emailTimeSend = new Date(mailz[i].tijd);
         let emailID = mailz[i].IDmail;
-        $('#scroll-cards').prepend('<div onclick="showContentOfItem' + i + '()" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><label class="checkbox"><input type="checkbox"/></label><div class="star"><img src="https://i.ibb.co/SN5SJ8x/star.png"/></div><div class="star"><img src="https://i.ibb.co/FW9tsHK/attachment.png" /></div></div><div class="date">' + (emailTimeSend.getUTCHours() + 2) + ':' + (emailTimeSend.getUTCMinutes()) +'</div></div><div></div></div>');
+        $('#scroll-cards').prepend('<div onclick="showContentOfItem(' + i + ')" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><label class="checkbox"><input type="checkbox"/></label><div class="star"><img src="https://i.ibb.co/SN5SJ8x/star.png"/></div><div class="star"><img src="https://i.ibb.co/FW9tsHK/attachment.png" /></div></div><div class="date">' + (emailTimeSend.getUTCHours() + 4) + ':' + (emailTimeSend.getUTCMinutes()) +'</div></div><div></div></div>');
         
-      }
+      }  
 
     });
 
+  
 
     
   </script>

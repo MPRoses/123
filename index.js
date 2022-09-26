@@ -141,7 +141,9 @@ app.post('/auth', function(req, res) {
 
 })
 
-
+/*
+pool.query('UPDATE")
+*/
 /* hierzo onder een for loop voor het updaten van de timer op de site */
 
 app.post('/registerForm', function(req, res) {
@@ -150,8 +152,8 @@ app.post('/registerForm', function(req, res) {
   let email = req.body.email;
 
    if (username) {
-   
-    pool.query('SELECT * FROM users WHERE username = ?', [username], function(error, results, fields) {
+
+      pool.query('SELECT * FROM users WHERE username = ?', [username], function(error, results, fields) {
       if (error) {
         throw error;
       }
@@ -209,5 +211,25 @@ app.get('/home', async function(req, res, next) {
   return res.render('home', { gebruikersnaam: req.session.username, mailz: mailz });
 
 });
+
+app.post('/sendMail', function(req, res) {
+  let receiver = req.body.receiver;
+  let subject = req.body.subject;
+  let message = req.body.message;
+  let date = new Date().toISOString();
+
+  let infoniffo = {
+    "afzender": 'jemoeder@jemoeder.com',
+    "ontvanger": receiver,
+    "onderwerp": subject,
+    "bericht": message,
+    "tijd":  date
+  }
+
+  pool.query('INSERT INTO mailz SET ?', infoniffo, function(error, results) {
+    if (error) throw error;
+  })
+
+})
 
 app.listen(3000);

@@ -15,6 +15,7 @@ var $ = require('jquery');
 let aantalMogelijkheden = 2;
 let amountOfTimesDisabled = 0;
 let mysql = require('mysql-await');
+let mailSend;
 
 const pool = mysql.createPool({
   connectionLimit: 100,
@@ -205,11 +206,15 @@ app.get('/home', async function(req, res, next) {
   }
   let mailz = "";
   mailz = await getMailz(req, res)
-  console.log(mailz);
+
+  if (mailSend == true){
+    return res.render('home', { gebruikersnaam: req.session.username, mailz: mailz, mailzSyntax: 'Mail is verstuurd!'});
+  } else if (mailSend == false) {
+    return res.render('home', { gebruikersnaam: req.session.username, mailz: mailz, mailzSyntax: 'Foute poging, email is niet verstuurd!' });
+  } else {
+    return;
+  }
   
-
-  return res.render('home', { gebruikersnaam: req.session.username, mailz: mailz });
-
 });
 
 app.post('/sendMail', function(req, res) {
@@ -227,9 +232,17 @@ app.post('/sendMail', function(req, res) {
   }
 
   pool.query('INSERT INTO mailz SET ?', infoniffo, function(error, results) {
-    if (error) throw error;
+    if (error) { 
+      mailSend = false;
+      res.redirect('/home');
+      throw error;
+    }
+    mailSend = true;
+    res.redirect('/home');
+
   })
 
+  
 })
 
 app.listen(3000);

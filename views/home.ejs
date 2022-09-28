@@ -16,8 +16,11 @@
   </script>
 </head>
 <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.rings.min.js"></script>
+
 <div class="dashboard">
-  <div class="left">
+  <div class="left" id="left">
     <div class="sidebar">
       <div class="wrapper">
         <div class="menu">
@@ -110,32 +113,29 @@
          <img src="https://i.ibb.co/sqFgRq8/search.png" />
        </span>
           </div>
+          <div>
+           <p style="color: white; font-size: 1.2rem"><%= locals.mailzSyntax %></p>
+          </div>
         </div>
         <div class="search-arrow">
           <img src="https://i.ibb.co/cx2t05H/scroll-arrows.png" />
         </div>
       </div>
     </div>
-    <div class="right-body">
+    <div class="right-body" id="right">
       <div class="scroll-cards" id="scroll-cards">
       </div>
       <div class="message" id="message">
         <div class="mes-date" id="message-date">
-          September 25, 2022
         </div>
         <div class="title" id="message-title">
-         email title
           <div class="title-icons">
-
           </div>
         </div>
         <div class="from" id="message-from">
-         
         </div>
         <div class="message-from">
-          <p id="message-mail"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, voluptas pariatur repellat veritatis atque, tempora quasi quas facere impedit aliquam libero qui iure cumque incidunt facilis soluta necessitatibus laboriosam nemo. Delectus architecto
-            sed, excepturi natus iste vel quidem officia corrupti repudiandae.
-          </p>
+          <p id="message-mail"></p>
         </div>
         <button class="btn2 butona"> Reply
           <span class="tag">
@@ -151,13 +151,12 @@
       </div>
       <div class="message" id="sendMail" style="display: none">
           <form action="sendMail" method="post">
-            <input type="text" name="receiver" placeholder="Receiver" required>
-            <input type="text" name="subject"
-            placeholder="Subject of email" required>
-            <input type="text" name="message"
-            placeholder="Message of email" requ>
-            <button>SEND THE MAILLLL</button>
+            <input type="text" name="receiver" class="default-input rounded" placeholder="Email Address" required/>
+            <input type="text" name="subject" class="default-input rounded" placeholder="Subject" required/>
+            <textarea placeholder="message" name="message" class="default-input rounded" required></textarea>
+            <input class="sendMail-btn float-right" type="submit" value="Send email">
           </form>
+    
       </div>
     </div>
   </div>
@@ -165,7 +164,20 @@
     <%= locals.mailz %>
   </div>
   <script id="megaScript">
-
+/*
+  VANTA.RINGS({
+    el: "body",
+    mouseControls: true,
+    touchControls: true,
+    gyroControls: false,
+    minHeight: 200.00,
+    minWidth: 200.00,
+    scale: 1.00,
+    scaleMobile: 1.00,
+    backgroundColor: 0x161616,
+    color: 0x2300ff
+  })
+*/
     let mailz = document.getElementById("mailz").innerHTML;
     mailz = JSON.parse(mailz);
     console.log(mailz.length);
@@ -213,8 +225,6 @@
 
     });
 
-  
 
-    
   </script>
 </body>

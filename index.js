@@ -60,7 +60,6 @@ app.get('/homeSide', function(req, res) {
   res.render('homeSide');
 });
 
-
 app.get('/account', function(req, res) {
   res.render('account');
 });
@@ -196,7 +195,6 @@ app.get('/home', async function(req, res, next) {
     res.send(`Log eerst in om deze pagina te zien`);
     return;
   }
-  console.log(req.session.email);
   let mailz = "";
   mailz = await getMailz(req, res)
   let mailzSyntaxx = '';

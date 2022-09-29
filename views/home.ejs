@@ -81,7 +81,7 @@
             </div>
             <img src="https://i.ibb.co/vz4HYJb/envelope.png" />
             <img src="https://i.ibb.co/52Vkq4M/earth-globe.png" />
-            <div class="icon-name5">Logout</div>
+            <div class="icon-name5"><a href="/logout">Logout</a></div>
           </div>
         </div>
       </div>
@@ -238,7 +238,31 @@
         
       }  
 
-    });
+    });    
+    var mouseStartedMoving = false;
+    var mouseMoved = false;
+    var countertje = 0;
+
+    setInterval(() => { 
+      if(!mouseMoved && mouseStartedMoving) {
+          countertje++;
+      }
+      else {
+        countertje = 0;
+      }
+
+      if (countertje == 300) {
+        window.location.href = './logout';
+      }
+      mouseMoved = false;
+    }, 1000);
+
+    onmousemove = function(ev){
+    mouseStartedMoving = true;
+    mouseMoved = true;
+}
+
+  
 
 
   </script>

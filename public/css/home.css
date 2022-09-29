@@ -119,7 +119,10 @@ body {
 
 .icon-name1 {
   margin-left: 10px;
-  color: #8b47a9;
+  color: white;
+}
+.icon1 {
+  filter: grayscale(1);
 }
 
 .icon-name {
@@ -737,4 +740,3 @@ textarea {
 		 opacity: 1;
 	}
 }
- 

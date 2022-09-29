@@ -195,7 +195,7 @@ async function getMailz(req, res) {
 
 app.get('/home', async function(req, res, next) {
   if (!req.session.loggedin) {
-    res.send(`Log eerst in om deze pagina te zien`);
+    res.send(`You aren't logged in, please log in.`);
     return;
   }
   let mailz = "";
@@ -211,10 +211,6 @@ app.get('/home', async function(req, res, next) {
   }
   mailSend = '';
   return res.render('home', { gebruikersnaam: req.session.username, mailz: mailz, mailzSyntax: mailzSyntaxx});
-
-});
-
-app.post('/deleteMail', function(req, res) {
 
 });
 
@@ -246,6 +242,10 @@ app.post('/sendMail', function(req, res) {
 })
 
 app.post("/api/loadDeleted", (req, res) => {
-});
+  let IDmail = req.body;
+  pool.query('UPDATE mailz SET verwijderd = true WHERE IDmail = ?', [IDmail.id], function(error, results, field) { if (error) throw error; 
+    res.redirect('/home');
+  });
+})
 
 app.listen(3000);

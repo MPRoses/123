@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap"         rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,700,900" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="/css/home.css" />
   <script>
@@ -53,14 +54,14 @@
             <img src="https://i.ibb.co/qdgf3TJ/envelope.png" />
           </div>
           <div class="icon-name1">Inbox
-            <button class="buton-span"> 20
+            <button class="buton-span" id="amount-in-inbox"> 20
             </button></div>
         </div>
-        <div class="folder-icons">
+        <div class="folder-icons" onclick="loadDeleted()">
           <div class="icon1">
-            <img src="https://i.ibb.co/2yLfX9W/sent-mail.png" />
+            <img src="https://i.ibb.co/Lv6TqBG/waste-bin.png" />
           </div>
-          <div class="icon-name">Send Mail</div>
+          <div class="icon-name">Deleted</div>
         </div>
       </div>
     </div>
@@ -69,7 +70,7 @@
     <div class="right-header">
       <div class="top-bar">
         <div class="top-bar-justify">
-          <div class="big-inbox">
+          <div class="big-inbox standard-text">
             Inbox
           </div>
 
@@ -81,18 +82,17 @@
             </div>
             <img src="https://i.ibb.co/vz4HYJb/envelope.png" />
             <img src="https://i.ibb.co/52Vkq4M/earth-globe.png" />
-            <div class="icon-name5"><a href="/logout">Logout</a></div>
+            <div><a class="standard-text" href="/logout">Logout</a></div>
           </div>
         </div>
       </div>
       <hr class="new-hr">
       <div class="right-bottom">
         <div class="check">
-          <label class="checkbox">
-            <input type="checkbox"/>
-          </label>
-          <div class="down-arrow">
-            <img src="https://i.ibb.co/WDqrXj6/drop-down-arrow.png" />
+          <div class="button" onclick="window.location.reload()">
+            <span class="button__mask"></span>
+            <span class="button__text">Reload Inbox</span>
+            <span class="button__text button__text--bis">Reload Inbox</span>
           </div>
         </div>
         <div class="middle-buttons">
@@ -137,24 +137,18 @@
         <div class="message-from">
           <p id="message-mail"></p>
         </div>
-        <button class="btn2 butona"> Reply
-          <span class="tag">
-             <img src="https://i.ibb.co/GQf8frw/reply.png"/>
-             </span>
+        <button class="reply-button" onclick="reply()"> Reply
         </button>
 
-        <button class="btn2 butonb"> Forward
-          <span class="tag">
-             <img src="https://i.ibb.co/6W40kTg/forward-arrow.png"/>
-             </span>
+        <button class="forward-button" onclick="forward()"> Forward
         </button>
       </div>
       <div class="message" id="sendMail" style="display: none">
           <form action="sendMail" method="post">
-            <input type="text" name="receiver" class="default-input rounded" placeholder="Email Address" required/>
-            <input type="text" name="subject" class="default-input rounded" placeholder="Subject" required/>
-            <textarea placeholder="message" name="message" class="default-input rounded" required></textarea>
-            <input class="sendMail-btn float-right" type="submit" value="Send email">
+            <input id="email-send-address" type="text" name="receiver" class="default-input rounded" placeholder="Email Address" required/>
+            <input id='email-send-subject' type="text" name="subject" class="default-input rounded" placeholder="Subject" required/>
+            <textarea id='email-send-text' placeholder="message" name="message" class="default-input rounded" required></textarea>
+            <input class="reply-button" type="submit" value="Send email">
           </form>
     
       </div>
@@ -164,8 +158,8 @@
     <%= locals.mailz %>
   </div>
   <script id="megaScript">
-
-  /*VANTA.RINGS({
+/*
+VANTA.RINGS({
     el: "body",
     mouseControls: true,
     touchControls: true,
@@ -176,15 +170,33 @@
     scaleMobile: 1.00,
     backgroundColor: 0x161616,
     color: 0x2300ff
-  })*/
-
+  })
+  */
     let mailz = document.getElementById("mailz").innerHTML;
     mailz = JSON.parse(mailz);
     console.log(mailz.length);
+    document.getElementById("amount-in-inbox").innerHTML = mailz.length;
 
     function composeMail() {
       document.getElementById('message').style.display = "none";
       document.getElementById('sendMail').style.display = "block";
+    }
+
+     function reply() {
+      let replyToMail = document.getElementById('message-from').innerHTML;
+      let replyToText = document.getElementById('message-mail').innerHTML;
+      console.log(replyToMail);
+      composeMail();
+      document.getElementById('email-send-address').value = replyToMail;
+      document.getElementById('email-send-text').innerHTML = (replyToText + ' -|- This is a reply to the email above -|-');
+    }
+    function forward() {
+      let forwardMail = document.getElementById('message-from').innerHTML;
+      let forwardText = document.getElementById('message-mail').innerHTML;
+      let forwardSubject = document.getElementById('message-title').innerHTML;
+      composeMail();
+      document.getElementById('email-send-subject').value = forwardSubject;
+      document.getElementById('email-send-text').innerHTML = (forwardText + ' -|- The email above has been forwarded, original sender: ' + forwardMail + '  -|-');
     }
 
     if (document.getElementById('mailzSyntax').innerHTML.length > 5) {
@@ -194,7 +206,15 @@
       }, 3000);
     }
 
+ async function deleteMail(emailID) {
+      console.log(emailID);
 
+      console.log((emailID + 'appelsaus'));
+    }
+
+     function loadDeleted() {
+    
+    }
     function showContentOfItem(i) {
       document.getElementById('message').style.display = "block";
       document.getElementById('sendMail').style.display = "none";
@@ -226,6 +246,7 @@
         let emailSender = mailz[i].afzender;
         let emailSubject = mailz[i].onderwerp;
         let emailTimeSend = new Date(mailz[i].tijd);
+        let emailID = mailz[i].IDmail;
         let minutes = ""
 
         if (emailTimeSend.getUTCMinutes() < 10) {
@@ -233,12 +254,14 @@
         } else {
            minutes = (emailTimeSend.getUTCMinutes() + '')
         }
-        let emailID = mailz[i].IDmail;
-        $('#scroll-cards').prepend('<div onclick="showContentOfItem(' + i + ')" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><label class="checkbox"><input type="checkbox"/></label><div class="star"><img src="https://i.ibb.co/SN5SJ8x/star.png"/></div><div class="star"><img src="https://i.ibb.co/FW9tsHK/attachment.png" /></div></div><div class="date">' + (emailTimeSend.getUTCHours() + 4) + ':' + (minutes) +'</div></div><div></div></div>');
+
+        $('#scroll-cards').prepend('<div onclick="showContentOfItem(' + i + ')" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><label class="checkbox"><input type="checkbox"/></label><div class="star"><img src="https://i.ibb.co/SN5SJ8x/star.png"/></div><div class="star" onclick="deleteMail(' + emailID + ')"><img src="https://i.ibb.co/Lv6TqBG/waste-bin.png"/></div></div><div class="date">' + (emailTimeSend.getUTCHours() + 4) + ':' + (minutes) +'</div></div><div></div></div>');
         
+       
       }  
 
     });    
+    
     var mouseStartedMoving = false;
     var mouseMoved = false;
     var countertje = 0;

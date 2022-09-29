@@ -16,6 +16,7 @@ let aantalMogelijkheden = 2;
 let amountOfTimesDisabled = 0;
 let mysql = require('mysql-await');
 let mailSend = '';
+let username = '';
 
 const pool = mysql.createPool({
   connectionLimit: 100,
@@ -65,6 +66,8 @@ app.get('/account', function(req, res) {
 });
 
 app.get('/logout', function(req, res) {
+  pool.query('UPDATE users SET online = false WHERE username = ?', [username], function(error, results, field) { if (error) throw error; 
+  });
   req.session.destroy();
   res.redirect('/');
 });
@@ -198,6 +201,7 @@ app.get('/home', async function(req, res, next) {
   let mailz = "";
   mailz = await getMailz(req, res)
   let mailzSyntaxx = '';
+  username = req.session.username;
  
   
   if (mailSend == 'true'){
@@ -210,6 +214,9 @@ app.get('/home', async function(req, res, next) {
 
 });
 
+app.post('/deleteMail', function(req, res) {
+
+});
 
 app.post('/sendMail', function(req, res) {
   let receiver = req.body.receiver;
@@ -237,5 +244,8 @@ app.post('/sendMail', function(req, res) {
   res.redirect('/home');
   return;
 })
+
+app.post("/api/loadDeleted", (req, res) => {
+});
 
 app.listen(3000);

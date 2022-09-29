@@ -15,7 +15,7 @@ var $ = require('jquery');
 let aantalMogelijkheden = 2;
 let amountOfTimesDisabled = 0;
 let mysql = require('mysql-await');
-let mailSend;
+let mailSend = '';
 
 const pool = mysql.createPool({
   connectionLimit: 100,
@@ -60,6 +60,7 @@ app.get('/homeSide', function(req, res) {
   res.render('homeSide');
 });
 
+
 app.get('/account', function(req, res) {
   res.render('account');
 });
@@ -77,15 +78,6 @@ app.listen(port, () => {
 app.post('/auth', function(req, res) {
   let username = req.body.username;
   let password = req.body.password;
-
-  async function disabled(seconden) {
-    setTimeout( function() {
-      res.render('login', { countDown: 
-        '', disabledValue: ''});
-    
-    }, seconden * 1000); 
-  
-  }
 
   if (username && password) {
 
@@ -204,18 +196,22 @@ app.get('/home', async function(req, res, next) {
     res.send(`Log eerst in om deze pagina te zien`);
     return;
   }
+  console.log(req.session.email);
   let mailz = "";
   mailz = await getMailz(req, res)
-
-  if (mailSend == true){
-    return res.render('home', { gebruikersnaam: req.session.username, mailz: mailz, mailzSyntax: 'Mail is verstuurd!'});
-  } else if (mailSend == false) {
-    return res.render('home', { gebruikersnaam: req.session.username, mailz: mailz, mailzSyntax: 'Foute poging, email is niet verstuurd!' });
-  } else {
-    return;
-  }
+  let mailzSyntaxx = '';
+ 
   
+  if (mailSend == 'true'){
+    mailzSyntaxx = 'Mail is verstuurd!';
+  } else if (mailSend == 'false') {
+    mailzSyntaxx = 'Foute poging, email is niet verstuurd!';
+  }
+  mailSend = '';
+  return res.render('home', { gebruikersnaam: req.session.username, mailz: mailz, mailzSyntax: mailzSyntaxx});
+
 });
+
 
 app.post('/sendMail', function(req, res) {
   let receiver = req.body.receiver;
@@ -233,16 +229,15 @@ app.post('/sendMail', function(req, res) {
 
   pool.query('INSERT INTO mailz SET ?', infoniffo, function(error, results) {
     if (error) { 
-      mailSend = false;
+      mailSend = 'false';
       res.redirect('/home');
       throw error;
     }
-    mailSend = true;
-    res.redirect('/home');
-
+   
   })
-
-  
+  mailSend = 'true';
+  res.redirect('/home');
+  return;
 })
 
 app.listen(3000);

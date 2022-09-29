@@ -18,6 +18,7 @@ let mysql = require('mysql-await');
 let mailSend = '';
 let username = '';
 
+
 const pool = mysql.createPool({
   connectionLimit: 100,
   host: 'sql147.main-hosting.eu',
@@ -193,13 +194,27 @@ async function getMailz(req, res) {
   return mailz
 }
 
+async function getSendMailz(req, res) {
+  let query = 'SELECT * FROM mailz WHERE afzender = ?'
+  let sendMailz = await pool.awaitQuery(query, [req.session.email], function(error, results, fields) {
+    if (error)
+      throw error;
+    else {
+    }
+  })
+  sendMailz = JSON.stringify(sendMailz)
+  return sendMailz
+}
+
 app.get('/home', async function(req, res, next) {
   if (!req.session.loggedin) {
     res.send(`You aren't logged in, please log in.`);
     return;
   }
   let mailz = "";
+  let sendMailz = "";
   mailz = await getMailz(req, res)
+  sendMailz = await getSendMailz(req, res)
   let mailzSyntaxx = '';
   username = req.session.username;
  
@@ -210,7 +225,7 @@ app.get('/home', async function(req, res, next) {
     mailzSyntaxx = 'Foute poging, email is niet verstuurd!';
   }
   mailSend = '';
-  return res.render('home', { gebruikersnaam: req.session.username, mailz: mailz, mailzSyntax: mailzSyntaxx});
+  return res.render('home', { gebruikersnaam: req.session.username, mailz: mailz, sendMailz: sendMailz, mailzSyntax: mailzSyntaxx});
 
 });
 
@@ -244,6 +259,13 @@ app.post('/sendMail', function(req, res) {
 app.post("/api/loadDeleted", (req, res) => {
   let IDmail = req.body;
   pool.query('UPDATE mailz SET verwijderd = true WHERE IDmail = ?', [IDmail.id], function(error, results, field) { if (error) throw error; 
+    res.redirect('/home');
+  });
+})
+
+app.post("/api/unLoadDeleted", (req, res) => {
+  let IDmail = req.body;
+  pool.query('UPDATE mailz SET verwijderd = false WHERE IDmail = ?', [IDmail.id], function(error, results, field) { if (error) throw error; 
     res.redirect('/home');
   });
 })

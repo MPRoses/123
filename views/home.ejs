@@ -54,8 +54,14 @@
             <img src="https://i.ibb.co/qdgf3TJ/envelope.png" id="icon1" />
           </div>
           <div id="icon-name1" class="icon-name1" onclick="loadInbox()">Inbox
-            <button class="buton-span" id="amount-in-inbox">
+            <button class="buton-span" id="amount-in-inbox" style="opacity: 0;">
             </button></div>
+        </div>
+        <div class="folder-icons" onclick="loadSend()">
+          <div class="icon1">
+            <img src="https://i.ibb.co/2yLfX9W/sent-mail.png" />
+          </div>
+          <div class="icon-name" id="icon-name-sendmail">Send Mail</div>
         </div>
         <div class="folder-icons" onclick="loadDeleted()">
           <div class="icon1">
@@ -63,6 +69,7 @@
           </div>
           <div class="icon-name" id="icon-name">Deleted</div>
         </div>
+        
       </div>
     </div>
   </div>
@@ -126,6 +133,8 @@
       </div>
       <div class="scroll-cards" id="scroll-cards-deleted" style="display: none">
       </div>
+      <div class="scroll-cards" id="scroll-cards-send" style="display: none">
+      </div>
       <div class="message" id="message">
         <div class="mes-date" id="message-date">
         </div>
@@ -158,8 +167,11 @@
   <div style="display: none" id="mailz">
     <%= locals.mailz %>
   </div>
+  <div style="display: none" id="sendMailz">
+    <%= locals.sendMailz %>
+  </div>
   <script id="megaScript">
-
+/*
 VANTA.RINGS({
     el: "body",
     mouseControls: true,
@@ -171,32 +183,42 @@ VANTA.RINGS({
     scaleMobile: 1.00,
     backgroundColor: 0x161616,
     color: 0x2300ff
-  })
+  })*/
   
     let mailz = document.getElementById("mailz").innerHTML;
     mailz = JSON.parse(mailz);
-    console.log(mailz.length);
+
+    let sendMailz = document.getElementById("sendMailz").innerHTML;
+    sendMailz = JSON.parse(sendMailz);
 
     function composeMail() {
       document.getElementById('message').style.display = "none";
       document.getElementById('sendMail').style.display = "block";
-      
     }
-
     function loadDeleted() {
       document.getElementById('scroll-cards').style.display = "none";
       document.getElementById('scroll-cards-deleted').style.display = "block";
+      document.getElementById('scroll-cards-send').style.display = "none";
       document.getElementById('icon-name1').style.color = "gray";
       document.getElementById('icon-name').style.color = 'white';
-
+      document.getElementById('icon-name-sendmail').style.color = "gray";
     }
     function loadInbox() {
       document.getElementById('scroll-cards').style.display = "block";
       document.getElementById('scroll-cards-deleted').style.display = "none";
+      document.getElementById('scroll-cards-send').style.display = "none";
       document.getElementById('icon-name1').style.color = "white";
       document.getElementById('icon-name').style.color = 'gray';
+      document.getElementById('icon-name-sendmail').style.color = "gray";
       checkIfInboxIsEmpty();
-
+    }
+    function loadSend() {
+      document.getElementById('scroll-cards').style.display = "none";
+      document.getElementById('scroll-cards-deleted').style.display = "none";
+      document.getElementById('scroll-cards-send').style.display = "block";
+      document.getElementById('icon-name1').style.color = "gray";
+      document.getElementById('icon-name').style.color = 'gray';
+      document.getElementById('icon-name-sendmail').style.color = "white";
     }
      function reply() {
       let replyToMail = document.getElementById('message-from').innerHTML;
@@ -238,6 +260,23 @@ VANTA.RINGS({
       const result = await response.json();
     }
 
+    async function unDeleteMail(emailID) {
+      const data = {
+        id: emailID
+      };
+      reloadPage();
+      const response = await fetch("/api/unLoadDeleted", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }); 
+
+      const result = await response.json();
+    }
+
+
     function reloadPage() {
       location.reload();
     }
@@ -248,6 +287,20 @@ VANTA.RINGS({
       let emailSender = mailz[i].afzender;
       let emailSubject = mailz[i].onderwerp;
       let emailTimeSend = new Date(mailz[i].tijd);
+
+      document.getElementById("message-mail").innerHTML = emailMessage;
+      document.getElementById("message-from").innerHTML = emailSender;
+      document.getElementById("message-title").innerHTML = emailSubject;
+      document.getElementById("message-date").innerHTML = (emailTimeSend.getUTCDay() + '/' + emailTimeSend.getUTCMonth() + '   ' + (emailTimeSend.getUTCHours() + 4) + ':' + (emailTimeSend.getUTCMinutes()));
+    }
+
+    function showContentOfSendItem(i) {
+      document.getElementById('message').style.display = "block";
+      document.getElementById('sendMail').style.display = "none";
+      let emailMessage = sendMailz[i].bericht;
+      let emailSender = sendMailz[i].afzender;
+      let emailSubject = sendMailz[i].onderwerp;
+      let emailTimeSend = new Date(sendMailz[i].tijd);
 
       document.getElementById("message-mail").innerHTML = emailMessage;
       document.getElementById("message-from").innerHTML = emailSender;
@@ -282,8 +335,26 @@ VANTA.RINGS({
         document.getElementById("reply-button").style.display = "block";
         document.getElementById("forward-button").style.display = "block";
       }
+    
     }
+
     $(document).ready(function() {
+
+        for (let i = 0; i < sendMailz.length; i++) {
+          let emailSender = sendMailz[i].ontvanger;
+          let emailSubject = sendMailz[i].onderwerp;
+          let emailTimeSend = new Date(sendMailz[i].tijd);
+          let emailID = sendMailz[i].IDmail;
+          let minutes = ""
+
+          if (emailTimeSend.getUTCMinutes() < 10) {
+            minutes = ('0' + emailTimeSend.getUTCMinutes())
+          } else {
+            minutes = (emailTimeSend.getUTCMinutes() + '')
+          }
+
+          $('#scroll-cards-send').prepend('<div onclick="showContentOfSendItem(' + i + ')" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"><div class="date">' + (emailTimeSend.getUTCHours() + 4) + ':' + (minutes) +'</div></div><div></div></div>');
+        }
 
       function updateMails() {
         mailz = document.getElementById("mailz").innerHTML;
@@ -308,15 +379,18 @@ VANTA.RINGS({
 
 
           if (isEmailDeleted == 0) {
-          $('#scroll-cards').prepend('<div onclick="showContentOfItem(' + i + ')" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><label class="checkbox"><input type="checkbox"/></label><div class="star"><img src="https://i.ibb.co/SN5SJ8x/star.png"/></div><div class="star" onclick="deleteMail(' + emailID + ')"><img src="https://i.ibb.co/Lv6TqBG/waste-bin.png"/></div></div><div class="date">' + (emailTimeSend.getUTCHours() + 4) + ':' + (minutes) +'</div></div><div></div></div>');
+          $('#scroll-cards').prepend('<div onclick="showContentOfItem(' + i + ')" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><div class="star" onclick="deleteMail(' + emailID + ')"><img src="https://i.ibb.co/Lv6TqBG/waste-bin.png"/></div><div class="star"><img src="https://i.ibb.co/SN5SJ8x/star.png"/></div><label class="checkbox" style="opacity: 0;"><input type="checkbox"/></label></div><div class="date">' + (emailTimeSend.getUTCHours() + 4) + ':' + (minutes) +'</div></div><div></div></div>');
           inboxCounter++;
           } else {
-            $('#scroll-cards-deleted').prepend('<div onclick="showContentOfItem(' + i + ')" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><div class="star" onclick="deleteMail(' + emailID + ')"><img src="https://i.ibb.co/Lv6TqBG/waste-bin.png"/></div></div><div class="date">' + (emailTimeSend.getUTCHours() + 4) + ':' + (minutes) +'</div></div><div></div></div>');
+            $('#scroll-cards-deleted').prepend('<div onclick="showContentOfItem(' + i + ')" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><div class="star" onclick="unDeleteMail(' + emailID + ')"><img src="/images/unwaste-bin.png"/></div></div><div class="date">' + (emailTimeSend.getUTCHours() + 4) + ':' + (minutes) +'</div></div><div></div></div>');
           }
-        
-
       
         }  
+        if (document.getElementById("scroll-cards").childNodes.length <= 1 && inboxCounter == 0) {
+        document.getElementById("amount-in-inbox").style.opacity = "0";
+      } else {
+        document.getElementById("amount-in-inbox").style.opacity = "1";
+      }
       document.getElementById("amount-in-inbox").innerHTML = inboxCounter;
       }
       updateMails();

@@ -226,8 +226,15 @@
         let emailSender = mailz[i].afzender;
         let emailSubject = mailz[i].onderwerp;
         let emailTimeSend = new Date(mailz[i].tijd);
+        let minutes = ""
+
+        if (emailTimeSend.getUTCMinutes() < 10) {
+           minutes = ('0' + emailTimeSend.getUTCMinutes())
+        } else {
+           minutes = (emailTimeSend.getUTCMinutes() + '')
+        }
         let emailID = mailz[i].IDmail;
-        $('#scroll-cards').prepend('<div onclick="showContentOfItem(' + i + ')" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><label class="checkbox"><input type="checkbox"/></label><div class="star"><img src="https://i.ibb.co/SN5SJ8x/star.png"/></div><div class="star"><img src="https://i.ibb.co/FW9tsHK/attachment.png" /></div></div><div class="date">' + (emailTimeSend.getUTCHours() + 4) + ':' + (emailTimeSend.getUTCMinutes()) +'</div></div><div></div></div>');
+        $('#scroll-cards').prepend('<div onclick="showContentOfItem(' + i + ')" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><label class="checkbox"><input type="checkbox"/></label><div class="star"><img src="https://i.ibb.co/SN5SJ8x/star.png"/></div><div class="star"><img src="https://i.ibb.co/FW9tsHK/attachment.png" /></div></div><div class="date">' + (emailTimeSend.getUTCHours() + 4) + ':' + (minutes) +'</div></div><div></div></div>');
         
       }  
 

@@ -191,6 +191,8 @@ VANTA.RINGS({
     let sendMailz = document.getElementById("sendMailz").innerHTML;
     sendMailz = JSON.parse(sendMailz);
 
+    document.getElementById('icon-name1').style.color ="white";
+
     function composeMail() {
       document.getElementById('message').style.display = "none";
       document.getElementById('sendMail').style.display = "block";
@@ -287,7 +289,13 @@ VANTA.RINGS({
       let emailSender = mailz[i].afzender;
       let emailSubject = mailz[i].onderwerp;
       let emailTimeSend = new Date(mailz[i].tijd);
-
+      if (document.getElementById('icon-name1').style.color == "white") {
+        document.getElementById("reply-button").style.display = "block";
+        document.getElementById("forward-button").style.display = "block";
+      } else {
+        document.getElementById("reply-button").style.display = "none";
+        document.getElementById("forward-button").style.display = "none";
+      }
       document.getElementById("message-mail").innerHTML = emailMessage;
       document.getElementById("message-from").innerHTML = emailSender;
       document.getElementById("message-title").innerHTML = emailSubject;
@@ -297,6 +305,8 @@ VANTA.RINGS({
     function showContentOfSendItem(i) {
       document.getElementById('message').style.display = "block";
       document.getElementById('sendMail').style.display = "none";
+      document.getElementById("reply-button").style.display = "none";
+      document.getElementById("forward-button").style.display = "none";
       let emailMessage = sendMailz[i].bericht;
       let emailSender = sendMailz[i].afzender;
       let emailSubject = sendMailz[i].onderwerp;
@@ -335,7 +345,6 @@ VANTA.RINGS({
         document.getElementById("reply-button").style.display = "block";
         document.getElementById("forward-button").style.display = "block";
       }
-    
     }
 
     $(document).ready(function() {

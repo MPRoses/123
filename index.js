@@ -220,9 +220,9 @@ app.get('/home', async function(req, res, next) {
  
   
   if (mailSend == 'true'){
-    mailzSyntaxx = 'Mail is verstuurd!';
+    mailzSyntaxx = 'Email has been send!';
   } else if (mailSend == 'false') {
-    mailzSyntaxx = 'Foute poging, email is niet verstuurd!';
+    mailzSyntaxx = 'Bad attempt, email has not been send!';
   }
   mailSend = '';
   return res.render('home', { gebruikersnaam: req.session.username, mailz: mailz, sendMailz: sendMailz, mailzSyntax: mailzSyntaxx});

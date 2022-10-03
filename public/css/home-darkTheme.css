@@ -333,6 +333,7 @@
   backdrop-filter : blur(7.4px);
   border : white solid 0.2em;
   border-radius : 16px;
+  overflow-x: hidden;
   }
   .card {
   border-radius : 16px;
@@ -420,7 +421,7 @@
   box-shadow : 0 4px 30px rgb(0, 0, 0, 0.1);
   backdrop-filter : blur(7.4px);
   border : white solid 0.2rem;
-  padding : 25px;
+  padding :25px;
   overflow : auto;
   color : white;
   }

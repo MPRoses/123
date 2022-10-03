@@ -11,6 +11,28 @@ let path = require('path');
 let ejs = require('ejs');
 const bcrypt = require("bcrypt");
 var $ = require('jquery');
+const webpush = require('web-push');
+
+//const publicVapidKey = process.env.PUBLIC_VAPID_KEY;
+//const privateVapidKey = process.env.PRIVATE_VAPID_KEY;
+
+//const publicVapidKey = BKBPAeTn7FNt5hvlxv0QirPCV6kHfqjg5usB5zZaqUoa0LDDDZpkR9fZxuMEsqV9feyWKxRVRv4jdHHJX7wSUf0;
+//const privateVapidKey = g-HD2VeV17HYfhs_vK7NNah6m3pqiTIh81DQnfIZ5u0;
+
+//webpush.setVapidDetails('mailto:jemoeder@jemoeder.com', publicVapidKey, privateVapidKey);
+/*
+app.post('/subscribe', (req, res) => {
+  const subscription = req.body;
+  res.status(201).json({});
+  const payload = JSON.stringify({ title: 'test' });
+
+  console.log(subscription);
+
+  webpush.sendNotification(subscription, payload).catch(error => {
+    console.error(error.stack);
+  });
+});
+*/
 
 let aantalMogelijkheden = 2;
 let amountOfTimesDisabled = 0;
@@ -261,26 +283,35 @@ app.post('/sendMail', function(req, res) {
   let subject = req.body.subject;
   let message = req.body.message;
   let date = new Date().toISOString();
+  
+   let dingetje = receiver.split(',');
+   console.log(dingetje)
 
-  let infoniffo = {
-    "afzender": 'jemoeder@jemoeder.com',
-    "ontvanger": receiver,
-    "onderwerp": subject,
-    "bericht": message,
-    "tijd":  date
-  }
-
-  pool.query('INSERT INTO mailz SET ?', infoniffo, function(error, results) {
-    if (error) { 
-      mailSend = 'false';
-      res.redirect('/home');
-      throw error;
+  for (i = 0; i < dingetje.every(); i++) {
+      let afzender = dingetje.username[i];
+      console.log(afzender);
+    let infoniffo = {
+      "afzender": afzender,
+      "ontvanger": receiver,
+      "onderwerp": subject,
+      "bericht": message,
+      "tijd":  date
     }
-   
-  })
-  mailSend = 'true';
-  res.redirect('/home');
-  return;
+  
+    pool.query('INSERT INTO mailz SET ?', infoniffo, function(error, results) {
+      if (error) { 
+        mailSend = 'false';
+        res.redirect('/home');
+        throw error;
+      }
+     
+    })
+    mailSend = 'true';
+    res.redirect('/home');
+    return;
+
+  }
+  
 })
 
 app.post("/api/loadDeleted", (req, res) => {
@@ -313,7 +344,8 @@ app.post("/api/reportSpam", (req, res) => {
 app.post("/api/onlineuserss", (req, res) => {
   console.log(1);
   pool.query('SELECT username FROM users WHERE online = 1', [], function(error, results) { if (error) throw error;
-  let newStuff = results;
+  let newStuff = JSON.stringify(results);
+  newStuff = JSON.parse(newStuff);
   console.log(2);
   console.log(newStuff)
   res.render('home', { newStuff: newStuff});

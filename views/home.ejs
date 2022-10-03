@@ -63,15 +63,21 @@
           <div class="icon1">
             <img src="https://i.ibb.co/2yLfX9W/sent-mail.png" />
           </div>
-          <div class="icon-name" id="icon-name-sendmail">Send mailz</div>
+          <div class="icon-name" id="icon-name2">Send mailz</div>
         </div>
         <div class="folder-icons" onclick="loadDeleted()">
           <div class="icon1">
             <img src="https://i.ibb.co/Lv6TqBG/waste-bin.png" id="icon2" />
           </div>
           <div class="icon-name" id="icon-name">Deleted mailz</div>
+        </div> 
+        <div class="folders">Other</div>   
+        <div class="folder-icons" onclick="loadOnlineUsers()">
+          <div class="icon1">
+            <img src="https://cdn-icons-png.flaticon.com/512/1307/1307714.png" id="icon3"/>
+          </div>
+          <div class="icon-name1" id="icon-name3" style="color: gray;">Online users</div>
         </div>
-        
       </div>
     </div>
   </div>
@@ -113,11 +119,11 @@
       </div>
     </div>
     <div class="right-body" id="right">
-      <div class="scroll-cards" id="scroll-cards">
+      <div class="scroll-cards scrollbar" id="scroll-cards">
       </div>
-      <div class="scroll-cards" id="scroll-cards-deleted" style="display: none">
+      <div class="scroll-cards scrollbar" id="scroll-cards-deleted" style="display: none">
       </div>
-      <div class="scroll-cards" id="scroll-cards-send" style="display: none">
+      <div class="scroll-cards scrollbar" id="scroll-cards-send" style="display: none">
       </div>
       <div class="message" id="message">
         <div class="mes-date" id="message-date">
@@ -134,7 +140,7 @@
         <button class="reply-button" id="reply-button" onclick="reply()"> Reply
         </button>
         <form action="sendMail" id="reply-mail-form" method="post" style="display: none">
-          <input id="email-send-address-reply" type="text" name="receiver" class="default-input rounded" placeholder="Email Address" style="display: none"/>
+          <input id="email-send-address-reply" type="text" name="receiver" class="default-input rounded" placeholder="Email address" style="display: none"/>
           <input id='email-send-subject-reply' type="text" name="subject" class="default-input rounded" placeholder="Subject" style="display: none"/>
           <textarea id='email-send-text-reply' placeholder="Write your reply here" name="message" class="default-input rounded" style="display: none"></textarea>
           <textarea id='email-send-text-reply-temp' placeholder="Write your reply here" name="tempmessage" class="default-input rounded" style="position: relative; top: 17px"></textarea>
@@ -153,6 +159,9 @@
           </form>
     
       </div>
+      <div class="message" id="onlineUsers" style="display: none">
+        <h1 class="title">Online users:</h1>
+      </div>
     </div>
   </div>
   <div style="display: none" id="mailz">
@@ -160,6 +169,15 @@
   </div>
   <div style="display: none" id="sendMailz">
     <%= locals.sendMailz %>
+  </div>
+  <div style="display: none" id="blockedEmails">
+    <%= locals.newBlocked %>
+  </div>
+   <div style="display: none" id="onlineUsersList">
+    <%= locals.onlineUsers %>
+  </div>
+  <div style="display: none" id="onlineUsersList2">
+    <%= locals.newStuff %>
   </div>
 </div>
   <script id="megaScript">
@@ -177,52 +195,98 @@ VANTA.RINGS({
     color: 0x2300ff
   })*/
   
-    let mailz = document.getElementById("mailz").innerHTML;
+    let mailz = $("#mailz").html();
     mailz = JSON.parse(mailz);
 
-    let sendMailz = document.getElementById("sendMailz").innerHTML;
+    let sendMailz = $("#sendMailz").html();
     sendMailz = JSON.parse(sendMailz);
 
+    let listOfOnlineUsers = $("#onlineUsersList").html();
+    listOfOnlineUsers = JSON.parse(listOfOnlineUsers);
+
     document.getElementById('icon-name1').style.color ="white";
-    let emailsThatAreOnTheSpamList = '';
 
     function composeMail() {
-      document.getElementById('message').style.display = "none";
-      document.getElementById('sendMail').style.display = "block";
+      $("#message").css("display", "none");
+      $("#onlineUsers").css("display", "none");
+      $("#sendMail").css("display", "block");
+      $("#reply-mail-form").css("display", "none");
     }
     function loadDeleted() {
-      document.getElementById('scroll-cards').style.display = "none";
-      document.getElementById('scroll-cards-deleted').style.display = "block";
-      document.getElementById('scroll-cards-send').style.display = "none";
-      document.getElementById('icon-name1').style.color = "gray";
-      document.getElementById('icon-name').style.color = 'white';
-      document.getElementById('icon-name-sendmail').style.color = "gray";
-      document.getElementById('top-text').innerHTML = 'Deleted mailz'
+      $("#scroll-cards").css("display", "none");
+      $("#scroll-cards-send").css("display", "none");
+      $("#scroll-cards-deleted").css("display", "block");
+      $("#message").css("display", "block");
+      $("#sendMail").css("display", "none");
+      $("#onlineUsers").css("display", "none");
+      $("#icon-name").css("color", "white");
+      $("#icon-name1").css("color", "gray");
+      $("#icon-name2").css("color", "gray");
+      $("#icon-name3").css("color", "gray");
+      $("#top-text").html("Deleted mailz");
+      $("#reply-mail-form").css("display", "none");
     }
     function loadInbox() {
-      document.getElementById('scroll-cards').style.display = "block";
-      document.getElementById('scroll-cards-deleted').style.display = "none";
-      document.getElementById('scroll-cards-send').style.display = "none";
-      document.getElementById('icon-name1').style.color = "white";
-      document.getElementById('icon-name').style.color = 'gray';
-      document.getElementById('icon-name-sendmail').style.color = "gray";
-      document.getElementById('top-text').innerHTML = 'Inbox'
+      $("#scroll-cards").css("display", "block");
+      $("#scroll-cards-send").css("display", "none");
+      $("#scroll-cards-deleted").css("display", "none");
+      $("#message").css("display", "block");
+      $("#sendMail").css("display", "none");
+      $("#onlineUsers").css("display", "none");
+      $("#icon-name").css("color", "gray");
+      $("#icon-name1").css("color", "white");
+      $("#icon-name2").css("color", "gray");
+      $("#icon-name3").css("color", "gray");
+      $("#top-text").html("Inbox");
+
       checkIfInboxIsEmpty();
     }
     function loadSend() {
-      document.getElementById('scroll-cards').style.display = "none";
-      document.getElementById('scroll-cards-deleted').style.display = "none";
-      document.getElementById('scroll-cards-send').style.display = "block";
-      document.getElementById('icon-name1').style.color = "gray";
-      document.getElementById('icon-name').style.color = 'gray';
-      document.getElementById('icon-name-sendmail').style.color = "white";
-      document.getElementById('top-text').innerHTML = 'Send mailz'
+      $("#scroll-cards").css("display", "none");
+      $("#scroll-cards-send").css("display", "block");
+      $("#scroll-cards-deleted").css("display", "none");
+      $("#message").css("display", "block");
+      $("#sendMail").css("display", "none");
+      $("#onlineUsers").css("display", "none");
+      $("#icon-name").css("color", "gray");
+      $("#icon-name1").css("color", "gray");
+      $("#icon-name2").css("color", "white");
+      $("#icon-name3").css("color", "gray");
+      $("#top-text").html("Send mailz");
+      $("#reply-mail-form").css("display", "none");
+    }
+     function loadOnlineUsers() {
+      $("#scroll-cards").css("display", "none");
+      $("#scroll-cards-send").css("display", "none");
+      $("#scroll-cards-deleted").css("display", "none");
+      $("#message").css("display", "none");
+      $("#sendMail").css("display", "none");
+      $("#onlineUsers").css("display", "block");
+      $("#onlineUsers").html("");
+      $("#icon-name").css("color", "gray");
+      $("#icon-name1").css("color", "gray");
+      $("#icon-name2").css("color", "gray");
+      $("#icon-name3").css("color", "white");
+      $("#top-text").html("Online users");
+      $("#reply-mail-form").css("display", "none");
+
+      $('#onlineUsers').append('<h1 class="title">Online users:</h1>');
+  
+      $('#onlineUsers').append('<button class="reply-button" onclick="onlineuserss()" id="reload-online-users">Reload online users</button>');
+      $('#reload-online-users').css("float", "right");
+      $('#reload-online-users').css("position", "relative");
+      $('#reload-online-users').css("top", "-34px");
+
+      for (let i = 0; i < listOfOnlineUsers.length; i++) {
+        $('#onlineUsers').append('<div><p class="message-from">' + listOfOnlineUsers[i].username + '<p></div>');
+      }
+      
     }
      function reply() {
-      if ( document.getElementById('reply-mail-form').style.display == "none") {
-        document.getElementById('reply-mail-form').style.display = "block";
+      if (document.getElementById('reply-mail-form').style.display == "none") {
+        $("#reply-mail-form").css("display", "block");
       } else {
-        document.getElementById('reply-mail-form').style.display = "none"; 
+        $("#reply-mail-form").css("display", "none");
       }
     }
     function forward() {
@@ -245,7 +309,6 @@ VANTA.RINGS({
       const data = {
         id: emailID
       };
-      reloadPage();
       const response = await fetch("/api/loadDeleted", {
         method: "POST",
         headers: {
@@ -253,7 +316,7 @@ VANTA.RINGS({
         },
         body: JSON.stringify(data),
       }); 
-
+      reloadPage();
       const result = await response.json();
     }
 
@@ -261,7 +324,7 @@ VANTA.RINGS({
       const data = {
         id: emailID
       };
-      reloadPage();
+      
       const response = await fetch("/api/unLoadDeleted", {
         method: "POST",
         headers: {
@@ -269,12 +332,43 @@ VANTA.RINGS({
         },
         body: JSON.stringify(data),
       }); 
-
+      reloadPage();
       const result = await response.json();
     }
-    function reportSpam(emailSender) {
-      emailsThatAreOnTheSpamList = emailsThatAreOnTheSpamList + emailSender;
+    async function reportSpam(emailSender) {
+      const data = {
+        email: emailSender
+      }
+      const response = await fetch("/api/reportSpam", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }); 
+
       reloadPage();
+    }
+
+    async function onlineuserss() {
+      console.log(1)
+      const data = {
+        email: 1
+      }
+      const response = await fetch("/api/onlineuserss", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }); 
+      console.log(2)
+      $('#onlineUsers').html('<h1 class="title">Online users:</h1>');
+      $('#onlineUsers').append('<button class="reply-button" onclick="onlineuserss()" id="reload-online-users">Reload online users</button>');
+      $('#reload-online-users').css("float", "right");
+      $('#reload-online-users').css("position", "relative");
+      $('#reload-online-users').css("top", "-34px");
+
     }
 
     function reloadPage() {
@@ -393,23 +487,23 @@ VANTA.RINGS({
           let emailID = mailz[i].IDmail;
           let minutes = ""
 
+          let blockedEmails = document.getElementById("blockedEmails").innerHTML;
+
           if (emailTimeSend.getUTCMinutes() < 10) {
             minutes = ('0' + emailTimeSend.getUTCMinutes())
           } else {
             minutes = (emailTimeSend.getUTCMinutes() + '')
           }
-
-          if (emailsThatAreOnTheSpamList.includes(emailSender)) {
-            // do something cool
+          if (blockedEmails.includes((emailSender) + ',')) {
           } else {
-          if (isEmailDeleted == 0) {
-            $('#scroll-cards').prepend('<div onclick="showContentOfItem(' + i + ')" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><div class="star" onclick="deleteMail(' + emailID + ')"><img src="https://i.ibb.co/Lv6TqBG/waste-bin.png"/></div><div class="star" onClick="reportSpam(\'' + emailSender + '\')"><img src="https://cdn-icons-png.flaticon.com/512/1209/1209935.png" style="width: 16px; filter: invert(0.5)"/></div><label class="checkbox" style="opacity: 0;"><input type="checkbox"/></label></div><div class="date">' + (emailTimeSend.getUTCHours() + 4) + ':' + (minutes) +'</div></div><div></div></div>');
-            inboxCounter++;
-            } else {
-              $('#scroll-cards-deleted').prepend('<div onclick="showContentOfItem(' + i + ')" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><div class="star" onclick="unDeleteMail(' + emailID + ')"><img src="/images/unwaste-bin.png"/></div></div><div class="date">' + (emailTimeSend.getUTCHours() + 4) + ':' + (minutes) +'</div></div><div></div></div>');
-            }
+            if (isEmailDeleted == 0) {
+              $('#scroll-cards').prepend('<div onclick="showContentOfItem(' + i + ')" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><div class="star" onclick="deleteMail(' + emailID + ')"><img src="https://i.ibb.co/Lv6TqBG/waste-bin.png"/></div><div class="star" onClick="reportSpam(\'' + emailSender + '\')"><img src="https://cdn-icons-png.flaticon.com/512/1209/1209935.png" style="width: 16px; filter: invert(0.5)"/></div><label class="checkbox" style="opacity: 0;"><input type="checkbox"/></label></div><div class="date">' + (emailTimeSend.getUTCHours() + 4) + ':' + (minutes) +'</div></div><div></div></div>');
+              inboxCounter++;
+              } else {
+                $('#scroll-cards-deleted').prepend('<div onclick="showContentOfItem(' + i + ')" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><div class="star" onclick="unDeleteMail(' + emailID + ')"><img src="/images/unwaste-bin.png"/></div></div><div class="date">' + (emailTimeSend.getUTCHours() + 4) + ':' + (minutes) +'</div></div><div></div></div>');
+              }
           }
-        }  
+          }  
         if (document.getElementById("scroll-cards").childNodes.length <= 1 && inboxCounter == 0) {
         document.getElementById("amount-in-inbox").style.opacity = "0";
       } else {
@@ -457,6 +551,42 @@ function toggleTheme() {
             }
  }
 
+ function updateMails() {
+        mailz = document.getElementById("mailz").innerHTML;
+        mailz = JSON.parse(mailz);
+        let inboxCounter = 0;
+        document.getElementById("scroll-cards").innerHTML = "";
+        document.getElementById("scroll-cards-deleted").innerHTML = "";
+          for(let i = 0; i < mailz.length; i++) {
+
+          let isEmailDeleted = mailz[i].verwijderd;
+          let emailSender = mailz[i].afzender;
+          let emailSubject = mailz[i].onderwerp;
+          let emailTimeSend = new Date(mailz[i].tijd);
+          let emailID = mailz[i].IDmail;
+          let minutes = ""
+
+          if (emailTimeSend.getUTCMinutes() < 10) {
+            minutes = ('0' + emailTimeSend.getUTCMinutes())
+          } else {
+            minutes = (emailTimeSend.getUTCMinutes() + '')
+          }
+
+          if (isEmailDeleted == 0) {
+            $('#scroll-cards').prepend('<div onclick="showContentOfItem(' + i + ')" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><div class="star" onclick="deleteMail(' + emailID + ')"><img src="https://i.ibb.co/Lv6TqBG/waste-bin.png"/></div><div class="star" onClick="reportSpam(\'' + emailSender + '\')"><img src="https://cdn-icons-png.flaticon.com/512/1209/1209935.png" style="width: 16px; filter: invert(0.5)"/></div><label class="checkbox" style="opacity: 0;"><input type="checkbox"/></label></div><div class="date">' + (emailTimeSend.getUTCHours() + 4) + ':' + (minutes) +'</div></div><div></div></div>');
+            inboxCounter++;
+            } else {
+              $('#scroll-cards-deleted').prepend('<div onclick="showContentOfItem(' + i + ')" class="card" id="card"><div class="mails"> <img src="https://randomuser.me/api/portraits/men/20.jpg" /><div class="mail-names" id="mail-names">' + emailSender + '</div></div><div class="mail-info">' + emailSubject + '</div> <div></div><div class="bottom-info"> <div class="check1"><div class="star" onclick="unDeleteMail(' + emailID + ')"><img src="/images/unwaste-bin.png"/></div></div><div class="date">' + (emailTimeSend.getUTCHours() + 4) + ':' + (minutes) +'</div></div><div></div></div>');
+            }
+          
+        }  
+        if (document.getElementById("scroll-cards").childNodes.length <= 1 && inboxCounter == 0) {
+        document.getElementById("amount-in-inbox").style.opacity = "0";
+      } else {
+        document.getElementById("amount-in-inbox").style.opacity = "1";
+      }
+      document.getElementById("amount-in-inbox").innerHTML = inboxCounter;
+      }
 
   
 checkIfInboxIsEmpty();

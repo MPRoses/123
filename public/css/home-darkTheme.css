@@ -2,12 +2,23 @@
   box-sizing : border-box;
   outline : none;
   }
-  
   body {
   margin : 0;
   overflow : hidden;
   background-color : #232323;
   font-family : 'Work Sans', sans-serif;
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 12px;
+    background-color: transparent; 
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: white;
   }
   .dashboard {
   height : 100vh;
@@ -108,6 +119,11 @@
   }
   .icon1 {
   filter : grayscale(1);
+  }
+  #icon3 {
+    width: 16px;
+    filter : grayscale(100%);
+    color: gray;
   }
   .icon-name {
   margin-left : 10px;
@@ -421,20 +437,6 @@
   margin-bottom : 10px;
   margin-top : 10px;
   }
-  .scroller::-webkit-scrollbar {
-  width : 12px;
-  height : 12px;
-  }
-  .scroller::-webkit-scrollbar-track {
-  background : white;
-  }
-  .scroller::-webkit-scrollbar-thumb {
-  background : #ddd;
-  visibility : hidden;
-  }
-  .scroller:hover::-webkit-scrollbar-thumb {
-  visibility : visible;
-  }
   .scroller {
   overflow : auto;
   font : 16px/1.5 Arial;
@@ -518,18 +520,6 @@
   }
   .butonb:hover {
   background-color : #ec195f;
-  }
-  ::-webkit-scrollbar {
-  width : 10px;
-  }
-  ::-webkit-scrollbar-track {
-  background : #f1f1f1;
-  }
-  ::-webkit-scrollbar-thumb {
-  background : #888;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-  background : #555;
   }
   .default-input {
   padding : 0.8em;

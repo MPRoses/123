@@ -17,6 +17,7 @@ let amountOfTimesDisabled = 0;
 let mysql = require('mysql-await');
 let mailSend = '';
 let username = '';
+let onlineUsers;
 
 
 const pool = mysql.createPool({
@@ -182,6 +183,18 @@ app.post('/registerForm', function(req, res) {
 
 })
 
+async function getOnlineUsers(req, res) {
+  let query = 'SELECT username FROM users WHERE online = 1'
+  onlineUsers = await pool.awaitQuery(query, [], function(error, results, fields) {
+    if (error)
+      throw error;
+    else {
+    }
+  })
+  onlineUsers = JSON.stringify(onlineUsers)
+  return onlineUsers
+}
+
 async function getMailz(req, res) {
   let query = 'SELECT * FROM mailz WHERE ontvanger = ?'
   let mailz = await pool.awaitQuery(query, [req.session.email], function(error, results, fields) {
@@ -206,6 +219,18 @@ async function getSendMailz(req, res) {
   return sendMailz
 }
 
+async function getBlockedEmails(req, res) {
+  let query = 'SELECT * FROM `users` WHERE username = ?'
+  let blockedEmails = await pool.awaitQuery(query, [req.session.username], function(error, results, fields) {
+    if (error)
+      throw error;
+    else {
+    }
+  })
+  blockedEmails = JSON.stringify(blockedEmails[0].blocked)
+  return blockedEmails
+}
+
 app.get('/home', async function(req, res, next) {
   if (!req.session.loggedin) {
     res.send(`You aren't logged in, please log in.`);
@@ -215,8 +240,10 @@ app.get('/home', async function(req, res, next) {
   let sendMailz = "";
   mailz = await getMailz(req, res)
   sendMailz = await getSendMailz(req, res)
+  onlineUsers = await getOnlineUsers(req, res)
   let mailzSyntaxx = '';
   username = req.session.username;
+  blockedEmails = await getBlockedEmails(req, res);
  
   
   if (mailSend == 'true'){
@@ -225,7 +252,7 @@ app.get('/home', async function(req, res, next) {
     mailzSyntaxx = 'Bad attempt, email has not been send!';
   }
   mailSend = '';
-  return res.render('home', { gebruikersnaam: req.session.username, mailz: mailz, sendMailz: sendMailz, mailzSyntax: mailzSyntaxx});
+  return res.render('home', { gebruikersnaam: req.session.username, mailz: mailz, sendMailz: sendMailz, mailzSyntax: mailzSyntaxx, newBlocked: blockedEmails, onlineUsers: onlineUsers });
 
 });
 
@@ -269,5 +296,32 @@ app.post("/api/unLoadDeleted", (req, res) => {
     res.redirect('/home');
   });
 })
+
+app.post("/api/reportSpam", (req, res) => {
+  let emailSender = req.body;
+  pool.query('SELECT * FROM users WHERE username = ?', [req.session.username], function(error, results) { if (error) throw error;
+  let newBlocked = (results[0].blocked + emailSender.email + ',');
+
+    pool.query('UPDATE users SET blocked = ? WHERE username = ?', [newBlocked, req.session.username], function(error, results) { if (error) throw error;
+      return res.render('home', { newBlocked: newBlocked});
+    })  
+  
+  })
+
+});
+
+app.post("/api/onlineuserss", (req, res) => {
+  console.log(1);
+  pool.query('SELECT username FROM users WHERE online = 1', [], function(error, results) { if (error) throw error;
+  let newStuff = results;
+  console.log(2);
+  console.log(newStuff)
+  res.render('home', { newStuff: newStuff});
+  return;
+
+  
+  })
+
+});
 
 app.listen(3000);

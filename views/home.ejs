@@ -16,56 +16,6 @@
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.rings.min.js"></script>
-<script>
-  const publicVapidKey = 'BKBPAeTn7FNt5hvlxv0QirPCV6kHfqjg5usB5zZaqUoa0LDDDZpkR9fZxuMEsqV9feyWKxRVRv4jdHHJX7wSUf0';
-
-if ('serviceWorker' in navigator) {
-  console.log('Registering service worker');
-
-  run().catch(error => console.error(error));
-}
-
-async function run() {
-  console.log('Registering service worker');
-  const registration = await navigator.serviceWorker.
-    register('/worker.js', {scope: '/'});
-  console.log('Registered service worker');
-
-  console.log('Registering push');
-  const subscription = await registration.pushManager.
-    subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
-    });
-  console.log('Registered push');
-
-  console.log('Sending push');
-  await fetch('/subscribe', {
-    method: 'POST',
-    body: JSON.stringify(subscription),
-    headers: {
-      'content-type': 'application/json'
-    }
-  });
-  console.log('Sent push');
-}
-
-// Boilerplate borrowed from https://www.npmjs.com/package/web-push#using-vapid-key-for-applicationserverkey
-function urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding)
-    .replace(/\-/g, '+')
-    .replace(/_/g, '/');
-
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
-}
-</script>
 <div class="dashboard" style="z-index: -2">
   <div class="left" id="left">
     <div class="sidebar">
@@ -123,6 +73,12 @@ function urlBase64ToUint8Array(base64String) {
             <img src="https://cdn-icons-png.flaticon.com/512/1307/1307714.png" id="icon3"/>
           </div>
           <div class="icon-name1" id="icon-name3" style="color: gray;">Online users</div>
+        </div>
+          <div class="folder-icons" onclick="loadAccountSettings()">
+          <div class="icon1">
+            <img src="https://cdn-icons-png.flaticon.com/512/807/807262.png" id="icon3"/>
+          </div>
+          <div class="icon-name1" id="icon-name4" style="color: gray;">Settings</div>
         </div>
       </div>
     </div>
@@ -203,10 +159,69 @@ function urlBase64ToUint8Array(base64String) {
             <textarea id='email-send-text' placeholder="Message" name="message" class="default-input rounded" required></textarea>
             <input class="reply-button" type="submit" value="Send email">
           </form>
-    
       </div>
       <div class="message" id="onlineUsers" style="display: none">
         <h1 class="title">Online users:</h1>
+      </div>
+      <div class="message" id="accountSettings" style="display: none">
+            <div class="tab">
+              <button class="tablinks standard-text" onclick="openCity(event, 'Change username')" id="defaultOpen">Change username</button>
+              <button class="tablinks standard-text" onclick="openCity(event, 'Change email')">Change email</button>
+              <button class="tablinks standard-text" onclick="openCity(event, 'Change password')">Change password</button>
+            </div>
+            
+            <div id="Change username" class="tabcontent">
+              <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+              <b class="title" style="font-size: 1.6rem">Change username</b>
+                  <form action="changeUsernameForm" method="POST">                                    
+                    <input type="text" name="oldUsername"placeholder="Old username" required> 
+                    <input type="text" name="newUsername"placeholder="New username" required>
+                    <input type="text" name="email"placeholder="Email" required>
+                    <input type="password" name="password"placeholder="Password" required>
+                    <input class="button" style="margin-top: 5px; left: 0; background-color: transparent;" type="submit" value="Change">
+                  </form>
+            </div>
+            
+            <div id="Change email" class="tabcontent">
+              <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+              <b class="title" style="font-size: 1.6rem">Change email address</b>
+                <form action="changeEmailForm" method="POST">     
+                  <input type="text" name="username"placeholder="Username" required>
+                  <input type="text" name="oldEmail"placeholder="Old email" required> 
+                  <input type="text" name="newEmail"placeholder="New email" required>
+                  <input type="password" name="password"placeholder="Password" required>
+                  <input type="submit" value="Change" class="button" style="margin-top: 5px; left: 0; background-color: transparent;">
+                </form> 
+            </div>
+            
+            <div id="Change password" class="tabcontent">
+              <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+              <b class="title" style="font-size: 1.6rem">Change password</b>
+                <form action="changePasswordForm" method="POST">
+                  <input type="text" name="username"placeholder="Username" required>
+                  <input type="text" name="email"placeholder="Email" required>
+                  <input type="password" name="oldPassword"placeholder="Old password" required> 
+                  <input type="password" name="newPassword"placeholder="New password" required>
+                  <input type="submit" value="Change" class="button" style="margin-top: 5px; left: 0; background-color: transparent;">
+                </form>
+            </div>
+            <div class="standard-text">
+              <%= locals.error %>
+            </div>
+
+            <div style="position: absolute; bottom: 0;">
+              <h1 class="title" style="font-size: 1.6rem">Switch theme:</h1>
+              <div class="switch">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" onclick="toggleTheme()" />
+                    <div class="slider round"></div>
+                </label>
+                </div>
+                </div>
+
+        </div>
+    </div>
+        
       </div>
     </div>
   </div>
@@ -226,6 +241,59 @@ function urlBase64ToUint8Array(base64String) {
     <%= locals.newStuff %>
   </div>
 </div>
+<style>
+  /* ja eng dat dit hier staat ik weet 't, ma ja wilde gwn da van lotte kopieren */
+  .tab {
+  overflow: hidden;
+  box-shadow : 0 4px 30px rgb(0, 0, 0, 0.1);
+  backdrop-filter : blur(7.4px);
+  border : #121212 solid 3px;
+  border-top-left-radius : 25px;
+  border-top-right-radius : 25px;
+  background-color: transparent;
+  margin-top: 25px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: rgba(150,150,150,0.5)
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: rgba(50,50,50,0.5)
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border : #121212 solid 3px;
+  border-top: none;
+}
+
+/* Style the close button */
+.topright {
+  float: right;
+  cursor: pointer;
+  font-size: 28px;
+  transition: all .32s linear;
+}
+
+.topright:hover {color: red;}
+</style>
   <script id="megaScript">
   
     let mailz = $("#mailz").html();
@@ -237,12 +305,40 @@ function urlBase64ToUint8Array(base64String) {
     let listOfOnlineUsers = $("#onlineUsersList").html();
     listOfOnlineUsers = JSON.parse(listOfOnlineUsers);
 
-    document.getElementById('icon-name1').style.color ="white";
+    const currentTheme = sessionStorage.getItem("theme");
+
+    if (currentTheme == "enabled") {
+           toggleTheme();
+    }
+
+    $(document).ready( function() {
+      var toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+           
+
+    })
+
+    window.onload = function() {
+
+      var reloading = sessionStorage.getItem("reloading");
+      if (reloading) {
+          sessionStorage.removeItem("reloading");
+          loadOnlineUsers();
+      }
+  }
+
+  if (currentTheme == "enabled") {
+     document.getElementById('icon-name1').style.color ="black";
+      console.log('white')
+    } else {
+     document.getElementById('icon-name1').style.color ="white";
+      console.log('blaCK')
+    }
 
     function composeMail() {
-      $("#message").css("display", "none");
+      $("#message").css("display", "block");
+      $("#sendMail").css("display", "none");
       $("#onlineUsers").css("display", "none");
-      $("#sendMail").css("display", "block");
+      $("#accountSettings").css("display", "none");
       $("#reply-mail-form").css("display", "none");
     }
     function loadDeleted() {
@@ -252,10 +348,20 @@ function urlBase64ToUint8Array(base64String) {
       $("#message").css("display", "block");
       $("#sendMail").css("display", "none");
       $("#onlineUsers").css("display", "none");
-      $("#icon-name").css("color", "white");
-      $("#icon-name1").css("color", "gray");
-      $("#icon-name2").css("color", "gray");
-      $("#icon-name3").css("color", "gray");
+      $("#accountSettings").css("display", "none");
+      if (currentTheme == "enabled") {
+        $("#icon-name").css("color", "black");
+        $("#icon-name1").css("color", "gray");
+        $("#icon-name2").css("color", "gray");
+        $("#icon-name3").css("color", "gray");   
+        $("#icon-name4").css("color", "gray");  
+      } else {
+        $("#icon-name").css("color", "white");
+        $("#icon-name1").css("color", "gray");
+        $("#icon-name2").css("color", "gray");
+        $("#icon-name3").css("color", "gray");
+        $("#icon-name4").css("color", "gray");
+      }
       $("#top-text").html("Deleted mailz");
       $("#reply-mail-form").css("display", "none");
     }
@@ -266,10 +372,21 @@ function urlBase64ToUint8Array(base64String) {
       $("#message").css("display", "block");
       $("#sendMail").css("display", "none");
       $("#onlineUsers").css("display", "none");
-      $("#icon-name").css("color", "gray");
-      $("#icon-name1").css("color", "white");
-      $("#icon-name2").css("color", "gray");
-      $("#icon-name3").css("color", "gray");
+      $("#accountSettings").css("display", "none");
+      $("#reply-mail-form").css("display", "none");
+      if (currentTheme == "enabled") {
+        $("#icon-name").css("color", "gray");
+        $("#icon-name1").css("color", "black");
+        $("#icon-name2").css("color", "gray");
+        $("#icon-name3").css("color", "gray");  
+        $("#icon-name4").css("color", "gray");     
+      } else {
+        $("#icon-name").css("color", "gray");
+        $("#icon-name1").css("color", "white");
+        $("#icon-name2").css("color", "gray");
+        $("#icon-name3").css("color", "gray");
+        $("#icon-name4").css("color", "gray");    
+      }
       $("#top-text").html("Inbox");
 
       checkIfInboxIsEmpty();
@@ -281,10 +398,20 @@ function urlBase64ToUint8Array(base64String) {
       $("#message").css("display", "block");
       $("#sendMail").css("display", "none");
       $("#onlineUsers").css("display", "none");
-      $("#icon-name").css("color", "gray");
-      $("#icon-name1").css("color", "gray");
-      $("#icon-name2").css("color", "white");
-      $("#icon-name3").css("color", "gray");
+      $("#accountSettings").css("display", "none");
+      if (currentTheme == "enabled") {
+        $("#icon-name").css("color", "gray");
+        $("#icon-name1").css("color", "gray");
+        $("#icon-name2").css("color", "black");
+        $("#icon-name3").css("color", "gray");     
+        $("#icon-name4").css("color", "gray");    
+      } else {
+        $("#icon-name").css("color", "gray");
+        $("#icon-name1").css("color", "gray");
+        $("#icon-name2").css("color", "white");
+        $("#icon-name3").css("color", "gray");
+        $("#icon-name4").css("color", "gray");    
+      }
       $("#top-text").html("Send mailz");
       $("#reply-mail-form").css("display", "none");
     }
@@ -296,10 +423,20 @@ function urlBase64ToUint8Array(base64String) {
       $("#sendMail").css("display", "none");
       $("#onlineUsers").css("display", "block");
       $("#onlineUsers").html("");
-      $("#icon-name").css("color", "gray");
-      $("#icon-name1").css("color", "gray");
-      $("#icon-name2").css("color", "gray");
-      $("#icon-name3").css("color", "white");
+      $("#accountSettings").css("display", "none");
+      if (currentTheme == "enabled") {
+        $("#icon-name").css("color", "gray");
+        $("#icon-name1").css("color", "gray");
+        $("#icon-name2").css("color", "gray");
+        $("#icon-name3").css("color", "black"); 
+        $("#icon-name4").css("color", "gray");        
+      } else {
+        $("#icon-name").css("color", "gray");
+        $("#icon-name1").css("color", "gray");
+        $("#icon-name2").css("color", "gray");
+        $("#icon-name3").css("color", "white");
+        $("#icon-name4").css("color", "gray");    
+      }
       $("#top-text").html("Online users");
       $("#reply-mail-form").css("display", "none");
 
@@ -315,6 +452,38 @@ function urlBase64ToUint8Array(base64String) {
       }
       
     }
+
+    function loadAccountSettings() {
+      $("#scroll-cards").css("display", "none");
+      $("#scroll-cards-send").css("display", "none");
+      $("#scroll-cards-deleted").css("display", "none");
+      $("#message").css("display", "none");
+      $("#sendMail").css("display", "none");
+      $("#onlineUsers").css("display", "none");
+      $("#accountSettings").css("display", "block");
+      if (currentTheme == "enabled") {
+        $("#icon-name").css("color", "gray");
+        $("#icon-name1").css("color", "gray");
+        $("#icon-name2").css("color", "gray");
+        $("#icon-name3").css("color", "gray");   
+        $("#icon-name4").css("color", "black");  
+        $(".tab").css("border", "#000 solid 3px")
+        $(".tabcontent").css("border", "#000 solid 3px")   
+        $(".tabcontent").css("border-top", "none") 
+      } else {
+        $("#icon-name").css("color", "gray");
+        $("#icon-name1").css("color", "gray");
+        $("#icon-name2").css("color", "gray");
+        $("#icon-name3").css("color", "gray");
+        $("#icon-name4").css("color", "white");   
+        $(".tab").css("border", "#fff solid 3px")
+        $(".tabcontent").css("border", "#fff solid 3px") 
+        $(".tabcontent").css("border-top", "none")
+      }
+      $("#top-text").html("Account settings");
+      $("#reply-mail-form").css("display", "none");
+    }
+
      function reply() {
       if (document.getElementById('reply-mail-form').style.display == "none") {
         $("#reply-mail-form").css("display", "block");
@@ -384,25 +553,11 @@ function urlBase64ToUint8Array(base64String) {
     }
 
     async function onlineuserss() {
-      console.log(1)
-      const data = {
-        email: 1
-      }
-      const response = await fetch("/api/onlineuserss", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }); 
-      console.log(2)
-      $('#onlineUsers').html('<h1 class="title">Online users:</h1>');
-      $('#onlineUsers').append('<button class="reply-button" onclick="onlineuserss()" id="reload-online-users">Reload online users</button>');
-      $('#reload-online-users').css("float", "right");
-      $('#reload-online-users').css("position", "relative");
-      $('#reload-online-users').css("top", "-34px");
+      sessionStorage.setItem("reloading", "true");
+      document.location.reload();
 
     }
+
 
     function reloadPage() {
       location.reload();
@@ -481,6 +636,7 @@ function urlBase64ToUint8Array(base64String) {
         document.getElementById("message-mail").innerHTML = '';
         document.getElementById("reply-button").style.display = "none";
         document.getElementById("forward-button").style.display = "none";
+        $("#reply-mail-form").css("display", "none");
       } else {
         document.getElementById("reply-button").style.display = "block";
         document.getElementById("forward-button").style.display = "block";
@@ -576,13 +732,22 @@ function urlBase64ToUint8Array(base64String) {
 
 function toggleTheme() {
             var theme = document.getElementsByTagName('link')[1];
-
             if (theme.disabled == false) {
                 theme.disabled = true;
+                sessionStorage.removeItem("theme");
+                $(".tab").css("border", "#fff solid 3px")
+                $(".tabcontent").css("border", "#fff solid 3px")
+                $(".tabcontent").css("border-top", "none")
             } else {
                 theme.disabled = false;
+                sessionStorage.setItem("theme", "enabled");
+                $(".tab").css("border", "#000 solid 3px")
+                $(".tabcontent").css("border", "#000 solid 3px")
+                $(".tabcontent").css("border-top", "none")
             }
  }
+
+
 
  function updateMails() {
         mailz = document.getElementById("mailz").innerHTML;
@@ -620,6 +785,21 @@ function toggleTheme() {
       }
       document.getElementById("amount-in-inbox").innerHTML = inboxCounter;
       }
+
+      function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
       /*
 VANTA.RINGS({
     el: "body",

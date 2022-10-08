@@ -5,8 +5,20 @@
   body {
   margin : 0;
   overflow : hidden;
-  background-color : white;
+  background-color : #fff;
   font-family : 'Work Sans', sans-serif;
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 12px;
+    background-color: transparent; 
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #121212;
   }
   .dashboard {
   height : 100vh;
@@ -19,7 +31,7 @@
   .sidebar {
   width : 80px;
   height : 100%;
-  background-image : linear-gradient(-225deg, #5271c4 0%, #b19fff 48%, #eca1fe 100%);
+  background-image : linear-gradient(-225deg, #EAE2B7 0%, #FCBF49 100%);
   display : flex;
   }
   .wrapper {
@@ -37,7 +49,7 @@
   .profile > img {
   border-radius : 50%;
   height : 35px;
-  border : white solid 1px;
+  border : black solid 1px;
   }
   .profile {
   margin-top : auto;
@@ -47,7 +59,6 @@
   }
   .navigation {
   width : 270px;
-  border-right : 1px solid #ddd;
   }
   .brand-name {
   font-family : Inter;
@@ -60,7 +71,7 @@
   font-size : 5vw;
   line-height : 1.5vw;
   user-select : none;
-  color : white;
+  color : #121212;
   }
   .brand-name span {
   font-family : 'Reem Kufi', sans-serif;
@@ -69,13 +80,16 @@
   position : relative;
   left : 25%;
   text-align : center;
-  color : white;
+  color : #121212;
   opacity : 0.87;
   }
   .wrapper2 {
   padding : 0 25px;
-  height : 100%;
+  position: relative;
+  top: -10px;
+  height : 102%;
   overflow : auto;
+  border: solid 0.2em #121212;
   }
   .compose {
   width : 150px;
@@ -84,7 +98,7 @@
   border-radius : 13px;
   border : solid 1px;
   background-image : linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
-  color : white;
+  color : #121212;
   font-size : 16px;
   padding-left : 20px;
   position : relative;
@@ -101,10 +115,15 @@
   }
   .icon-name1 {
   margin-left : 10px;
-  color : white;
+  color : #121212;
   }
   .icon1 {
   filter : grayscale(1);
+  }
+  #icon3 {
+    width: 16px;
+    filter : grayscale(100%);
+    color: gray;
   }
   .icon-name {
   margin-left : 10px;
@@ -164,7 +183,7 @@
   border-radius : 15px;
   padding : 5px 10px;
   border : 1px;
-  color : white;
+  color : #121212;
   background-color : #fe365c;
   box-shadow : 0 0 10px 2px #f7bfc9;
   margin-left : 70px;
@@ -222,7 +241,7 @@
   .profile2 > img {
   border-radius : 50%;
   height : 28px;
-  border : white solid 2px;
+  border : #121212 solid 2px;
   margin-left : 25px;
   margin-right : 5px;
   }
@@ -264,7 +283,7 @@
   margin-left : 5px;
   }
   .new:hover {
-  background-color : white;
+  background-color : #121212;
   }
   .new {
   border-radius : 4px;
@@ -312,14 +331,15 @@
   padding : 5px 0 5px 0;
   box-shadow : 0 4px 30px rgb(0, 0, 0, 0.1);
   backdrop-filter : blur(7.4px);
-  border : white solid 0.2em;
+  border : #121212 solid 0.2em;
   border-radius : 16px;
+  overflow-x: hidden;
   }
   .card {
   border-radius : 16px;
   box-shadow : 0 4px 30px rgb(0, 0, 0, 0.1);
   backdrop-filter : blur(7.4px);
-  border : white solid 1px;
+  border : #121212 solid 1px;
   border-radius : 25px;
   margin-top : 8px;
   margin-bottom : 5px;
@@ -327,7 +347,8 @@
   transition : 0.3s;
   }
   .card:hover {
-  box-shadow : 5px 1px 20px 1px white;
+  box-shadow : 5px 1px 20px 1px #121212
+;
   transform : scale(0.96);
   }
   .mail-names {
@@ -349,7 +370,7 @@
   margin-left : 0;
   line-height : 1.7;
   font-weight : 600;
-  color : white;
+  color : #121212;
   }
   .check1 {
   display : flex;
@@ -366,7 +387,7 @@
   }
   .standard-text {
   text-decoration : none;
-  color : white;
+  color : #121212;
   font-family : 'Work Sans', sans-serif;
   font-size : 1.5rem;
   text-transform : uppercase;
@@ -382,7 +403,7 @@
   height : 25px;
   border-radius : 10px;
   text-align : center;
-  color : white;
+  color : #121212;
   padding : 5px 3px 0;
   }
   .border1 {
@@ -400,10 +421,10 @@
   border-radius : 16px;
   box-shadow : 0 4px 30px rgb(0, 0, 0, 0.1);
   backdrop-filter : blur(7.4px);
-  border : white solid 0.2rem;
-  padding : 25px;
+  border : #121212 solid 0.2rem;
+  padding :25px;
   overflow : auto;
-  color : white;
+  color : #121212;
   }
   .mes-date {
   color : grey;
@@ -417,20 +438,6 @@
   font-weight : bold;
   margin-bottom : 10px;
   margin-top : 10px;
-  }
-  .scroller::-webkit-scrollbar {
-  width : 12px;
-  height : 12px;
-  }
-  .scroller::-webkit-scrollbar-track {
-  background : white;
-  }
-  .scroller::-webkit-scrollbar-thumb {
-  background : #ddd;
-  visibility : hidden;
-  }
-  .scroller:hover::-webkit-scrollbar-thumb {
-  visibility : visible;
   }
   .scroller {
   overflow : auto;
@@ -501,7 +508,7 @@
   border : 1px;
   height : 35px;
   padding : 5px 30px;
-  color : white;
+  color : #121212;
   position : relative;
   }
   .butona {
@@ -515,18 +522,6 @@
   }
   .butonb:hover {
   background-color : #ec195f;
-  }
-  ::-webkit-scrollbar {
-  width : 10px;
-  }
-  ::-webkit-scrollbar-track {
-  background : #f1f1f1;
-  }
-  ::-webkit-scrollbar-thumb {
-  background : #888;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-  background : #555;
   }
   .default-input {
   padding : 0.8em;
@@ -556,7 +551,7 @@
   height : 150px;
   }
   .very-nice-text {
-  color : white;
+  color : #121212;
   font-family : 'Work Sans', sans-serif;
   font-size : 1.5rem;
   position : absolute;
@@ -566,10 +561,10 @@
   right : 5vw;
   }
   .reply-button {
-  border : white solid 0.2em;
+  border : #121212 solid 0.2em;
   background : transparent;
   padding : 5px 15px 5px 15px;
-  color : white;
+  color : #121212;
   border-radius : 8px;
   opacity : 0.7;
   transition : 0.3s ease-in-out;
@@ -579,10 +574,10 @@
   opacity : 1;
   }
   .forward-button {
-  border : white solid 0.2em;
+  border : #121212 solid 0.2em;
   background : transparent;
   padding : 5px 15px 5px 15px;
-  color : white;
+  color : #121212;
   border-radius : 8px;
   opacity : 0.7;
   transition : 0.3s ease-in-out;
@@ -594,13 +589,13 @@
   .button {
   user-select : none;
   display : inline-block;
-  border : white solid 0.2em;
+  border : #121212 solid 0.2em;
   position : relative;
   left : 40%;
   cursor : pointer;
   overflow : hidden;
   opacity : 0.78;
-  color : #fff;
+  color : black;
   transition : 0.3s;
   border-radius : 16px;
   box-shadow : 0 4px 30px rgb(0, 0, 0, 0.1);
@@ -632,7 +627,7 @@
   left : 0;
   right : 0;
   bottom : 0;
-  background : white;
+  background : #121212;
   transform : translateX(-100%) rotate(45deg);
   transition : all 0.3s;
 }
@@ -650,7 +645,7 @@
 }
   .button:active {
   opacity : 1;
-  background : white;
+  background : #121212;
   color : inherit;
 }
   @keyframes fx-mask {
@@ -680,4 +675,148 @@
   transform : translateX(0);
   opacity : 1;
   }
+}
+.preloadertje {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: absolute; 
+  width: 100vw; 
+  height: 100vh; 
+  background-color: black;
+  z-index: 2;
+}
+
+.preloader {
+  margin: 100px auto 0;
+  width: 66px;
+  height: 12px;
+}
+
+.main {
+  color: #fff;
+  margin: 5px 0;
+  text-transform: uppercase;
+  text-align: center;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+.preloader {
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+	margin: auto;
+	width: 50%;
+  z-index:50;
+}
+
+.preloader .line {
+  width: 1px;
+  height: 12px;
+  background: #fff;
+  margin: 0 1px;
+  display: inline-block;
+  animation: opacity-1 1000ms infinite ease-in-out;
+}
+
+.preloader .line-1 { animation-delay: 800ms; }
+.preloader .line-2 { animation-delay: 600ms; }
+.preloader .line-3 { animation-delay: 400ms; }
+.preloader .line-4 { animation-delay: 200ms; }
+.preloader .line-6 { animation-delay: 200ms; }
+.preloader .line-7 { animation-delay: 400ms; }
+.preloader .line-8 { animation-delay: 600ms; }
+.preloader .line-9 { animation-delay: 800ms; }
+
+@keyframes opacity-1 { 
+  0% { 
+    opacity: 1;
+  }
+  50% { 
+    opacity: 0;
+  }
+  100% { 
+    opacity: 1;
+  }  
+}
+
+html {
+    height: 100%;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    -webkit-overflow-scrolling: touch;
+    background: none;
+    background-color: var(--bg-color);
+}
+
+ :root {
+
+    --font-color: #0f0f0f;
+    --bg-color: #fefefe;
+
+}
+
+[data-theme="dark"] {
+
+    --font-color: #fefefe;
+    --bg-color: #121212;
+}
+
+.switch {
+    height: 60px;
+    position: relative;
+    left: 25px;
+    top: 0px;
+}
+    
+.theme-switch {
+  display: inline-block;
+  height: 34px;
+  position: relative;
+  width: 60px;
+}
+
+.theme-switch input {
+  display:none;
+}
+
+.slider {
+  background-color: #ccc;
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: .4s;
+}
+
+.slider:before {
+  background-color: #fff;
+  bottom: 4px;
+  content: "";
+  height: 26px;
+  left: 4px;
+  position: absolute;
+  transition: .4s;
+  width: 26px;
+}
+
+input:checked + .slider {
+  background-color: #2b2b2b;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }

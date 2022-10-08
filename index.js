@@ -13,27 +13,6 @@ const bcrypt = require("bcrypt");
 var $ = require('jquery');
 const webpush = require('web-push');
 
-//const publicVapidKey = process.env.PUBLIC_VAPID_KEY;
-//const privateVapidKey = process.env.PRIVATE_VAPID_KEY;
-
-//const publicVapidKey = BKBPAeTn7FNt5hvlxv0QirPCV6kHfqjg5usB5zZaqUoa0LDDDZpkR9fZxuMEsqV9feyWKxRVRv4jdHHJX7wSUf0;
-//const privateVapidKey = g-HD2VeV17HYfhs_vK7NNah6m3pqiTIh81DQnfIZ5u0;
-
-//webpush.setVapidDetails('mailto:jemoeder@jemoeder.com', publicVapidKey, privateVapidKey);
-/*
-app.post('/subscribe', (req, res) => {
-  const subscription = req.body;
-  res.status(201).json({});
-  const payload = JSON.stringify({ title: 'test' });
-
-  console.log(subscription);
-
-  webpush.sendNotification(subscription, payload).catch(error => {
-    console.error(error.stack);
-  });
-});
-*/
-
 let aantalMogelijkheden = 2;
 let amountOfTimesDisabled = 0;
 let mysql = require('mysql-await');
@@ -269,9 +248,9 @@ app.get('/home', async function(req, res, next) {
  
   
   if (mailSend == 'true'){
-    mailzSyntaxx = 'Email has been send!';
+    mailzSyntaxx = 'Succesful!';
   } else if (mailSend == 'false') {
-    mailzSyntaxx = 'Bad attempt, email has not been send!';
+    mailzSyntaxx = 'Bad attempt,not succesful!';
   }
   mailSend = '';
   return res.render('home', { gebruikersnaam: req.session.username, mailz: mailz, sendMailz: sendMailz, mailzSyntax: mailzSyntaxx, newBlocked: blockedEmails, onlineUsers: onlineUsers });
@@ -285,13 +264,11 @@ app.post('/sendMail', function(req, res) {
   let date = new Date().toISOString();
   
    let dingetje = receiver.split(',');
-   console.log(dingetje)
 
-  for (i = 0; i < dingetje.every(); i++) {
-      let afzender = dingetje.username[i];
-      console.log(afzender);
+  for (i = 0; i < dingetje.length; i++) {
+      let receiver = dingetje[i];
     let infoniffo = {
-      "afzender": afzender,
+      "afzender": req.session.email,
       "ontvanger": receiver,
       "onderwerp": subject,
       "bericht": message,
@@ -306,12 +283,12 @@ app.post('/sendMail', function(req, res) {
       }
      
     })
-    mailSend = 'true';
-    res.redirect('/home');
-    return;
+   
 
   }
-  
+  mailSend = 'true';
+  res.redirect('/home');
+  return;
 })
 
 app.post("/api/loadDeleted", (req, res) => {
@@ -341,19 +318,108 @@ app.post("/api/reportSpam", (req, res) => {
 
 });
 
-app.post("/api/onlineuserss", (req, res) => {
-  console.log(1);
-  pool.query('SELECT username FROM users WHERE online = 1', [], function(error, results) { if (error) throw error;
-  let newStuff = JSON.stringify(results);
-  newStuff = JSON.parse(newStuff);
-  console.log(2);
-  console.log(newStuff)
-  res.render('home', { newStuff: newStuff});
-  return;
+app.post('/changeUsernameForm', function(req, res) {
+  let oldUsername = req.body.oldUsername;
+  let newUsername = req.body.newUsername;
+  let email = req.body.email;
+  let password = req.body.password;
 
-  
-  })
-
+  if (oldUsername && newUsername && email && password) {
+    pool.query('SELECT * FROM users WHERE username = ? && email = ?', [oldUsername, email], async function(error, results, fields) {
+      if (results.length > 0) {
+        let myHash = results[0].password;
+        let salt = results[0].salt;
+        bcrypt.compare(password, myHash, function(err, result) {
+          if (result) {
+            if (oldUsername && newUsername && email) {
+              pool.query('UPDATE users SET username = ? WHERE username = ? && email = ?', [newUsername, oldUsername, email],
+                function(error, results) {
+                  if (error) {
+                    throw error;
+                  }
+                  if (results) {
+                    mailSend = 'true';
+                    res.redirect('/home');
+                  }
+                });
+            }
+          } else {
+            mailSend = 'false';
+            res.redirect('/home');
+          }
+        })
+      }
+    });
+  }
 });
+
+app.post('/changeEmailForm', function(req, res) {
+  let oldEmail = req.body.oldEmail;
+  let newEmail = req.body.newEmail;
+  let username = req.body.username;
+  let password = req.body.password;
+
+  if (oldEmail && newEmail && username && password) {
+    pool.query('SELECT * FROM users WHERE username = ? && email = ?', [username, oldEmail], async function(error, results, fields) {
+      if (results.length > 0) {
+        let myHash = results[0].password;
+        let salt = results[0].salt;
+        bcrypt.compare(password, myHash, function(err, result) {
+          if (result) {
+            if (oldEmail && newEmail && username) {
+              pool.query('UPDATE users SET email = ? WHERE email = ? && username = ?', [newEmail, oldEmail, username],
+                function(error, results) {
+                  if (error) {
+                    throw error;
+                  }
+                  if (results) {
+                    mailSend = 'true';
+                    res.redirect('/home');
+                  }
+                });
+            }
+          } else {
+            mailSend = 'false';
+            res.redirect('/home');
+          }
+        })
+      }
+    });
+  }
+});
+
+app.post('/changePasswordForm', function(req, res) {
+  let oldPassword = req.body.oldPassword;
+  let newPassword = req.body.newPassword;
+  let username = req.body.username;
+  let email = req.body.email;
+
+  if (username) {
+    pool.query('SELECT * FROM users WHERE username = ?', [username], async function(error, results, fields) {
+      if (results.length > 0) {
+        let myHash = results[0].password;
+        let salt = results[0].salt;
+        bcrypt.compare(oldPassword, myHash, function(err, result) {
+          if (result) {
+            bcrypt.hash(newPassword, salt, function(err, hash) {
+              pool.query('UPDATE users SET password = ? WHERE password = ? && username = ? && email = ?', [hash, myHash, username, email], function(error, results) {
+                if (error) {
+                  throw error;
+                }
+                if (results) {
+                  mailSend = 'true';
+                  res.redirect('/home');
+                };
+              });
+            })
+          } else {
+            mailSend = 'false';
+            res.redirect('/home');
+          }
+        })
+      }
+    });
+  }
+})
 
 app.listen(3000);

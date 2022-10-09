@@ -4,4 +4,4 @@
 Even though there is still quite some CSS involved, I did not focus so much on the front-end design (normally I create entire design plans and now I just went with what makes sense). The focus of this project was more on the backend and the general functionality and that made me learn a lot about accounts, hashing, databases and more. 
 Despite the sucess of this project I will probably not be returning to nodeJS anytime soon, but I look back on this project with pride.
 
-> Jens
+> Jens 9/10/22

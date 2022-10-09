@@ -14,8 +14,27 @@
   <script src="./jQuery.js"></script>
 </head>
 <body>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.rings.min.js"></script>
+<script id="vantaScript">
+  if (sessionStorage.getItem("vanta") == 'enabled') {
+   VANTA.RINGS({
+      el: "body",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      scaleMobile: 1.00,
+      backgroundColor: 0x161616,
+      color: 0xffffff,
+      backgroundAlpha: 0.00
+    })
+
+  }
+</script>
 <div class="dashboard" style="z-index: -2">
   <div class="left" id="left">
     <div class="sidebar">
@@ -85,7 +104,7 @@
   </div>
   <div class="right-side">
     <div class="right-header">
-      <div class="top-bar">
+      <div class="top-bar" style="position: relative; z-index: 5">
         <div class="top-bar-justify">
           <div class="big-inbox standard-text" id="top-text">
             Inbox
@@ -154,7 +173,8 @@
       </div>
       <div class="message" id="sendMail" style="display: none">
           <form action="sendMail" method="post">
-            <input id="email-send-address" type="text" name="receiver" class="default-input rounded" placeholder="Email Address" required/>
+            <input id="email-send-address" type="text" name="receiver" class="default-input rounded" placeholder="Email Address" required style="margin: 0;"/>
+            <p>Add a comma between mail addresses to send it to multiple people</p>
             <input id='email-send-subject' type="text" name="subject" class="default-input rounded" placeholder="Subject" required/>
             <textarea id='email-send-text' placeholder="Message" name="message" class="default-input rounded" required></textarea>
             <input class="reply-button" type="submit" value="Send email">
@@ -210,7 +230,7 @@
             </div>
 
             <div style="position: absolute; bottom: 0;">
-              <h1 class="title" style="font-size: 1.6rem">Switch theme:</h1>
+              <h1 class="title" style="font-size: 1.6rem">Light theme:</h1>
               <div class="switch">
                 <label class="theme-switch" for="checkbox">
                     <input type="checkbox" id="checkbox" onclick="toggleTheme()" />
@@ -218,6 +238,15 @@
                 </label>
                 </div>
                 </div>
+            <div style="position: absolute; bottom: 100px;">
+              <h1 class="title" style="font-size: 1.6rem">Disable background:</h1>
+                <div class="switch">
+                  <label class="theme-switch" for="checkbox2">
+                    <input type="checkbox2" id="checkbox2" onclick="disableBackground()" />
+                    <div class="slider round"></div>
+                  </label>
+                </div>
+              </div>
 
         </div>
     </div>
@@ -305,26 +334,40 @@
     let listOfOnlineUsers = $("#onlineUsersList").html();
     listOfOnlineUsers = JSON.parse(listOfOnlineUsers);
 
+
     const currentTheme = sessionStorage.getItem("theme");
 
     if (currentTheme == "enabled") {
            toggleTheme();
+           $('#checkbox').prop('checked', true);
+    } else {
+      $('#checkbox').prop('checked', false);
     }
+
+
+  function disableBackground() {
+  if (sessionStorage.getItem("vanta") == "enabled") {
+    $('#checkbox2').prop('checked', true);
+  } else {
+    $('#checkbox2').prop('checked', false);
+  }
+}
+    
+    
 
     $(document).ready( function() {
       var toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
-           
-
+          
     })
 
-    window.onload = function() {
+    
 
       var reloading = sessionStorage.getItem("reloading");
       if (reloading) {
           sessionStorage.removeItem("reloading");
           loadOnlineUsers();
       }
-  }
+  
 
   if (currentTheme == "enabled") {
      document.getElementById('icon-name1').style.color ="black";
@@ -335,8 +378,8 @@
     }
 
     function composeMail() {
-      $("#message").css("display", "block");
-      $("#sendMail").css("display", "none");
+      $("#message").css("display", "none");
+      $("#sendMail").css("display", "block");
       $("#onlineUsers").css("display", "none");
       $("#accountSettings").css("display", "none");
       $("#reply-mail-form").css("display", "none");
@@ -356,7 +399,7 @@
         $("#icon-name3").css("color", "gray");   
         $("#icon-name4").css("color", "gray");  
       } else {
-        $("#icon-name").css("color", "white");
+        $("#icon-name").css("color", "#e3e3e3e3");
         $("#icon-name1").css("color", "gray");
         $("#icon-name2").css("color", "gray");
         $("#icon-name3").css("color", "gray");
@@ -382,7 +425,7 @@
         $("#icon-name4").css("color", "gray");     
       } else {
         $("#icon-name").css("color", "gray");
-        $("#icon-name1").css("color", "white");
+        $("#icon-name1").css("color", "#e3e3e3e3");
         $("#icon-name2").css("color", "gray");
         $("#icon-name3").css("color", "gray");
         $("#icon-name4").css("color", "gray");    
@@ -408,7 +451,7 @@
       } else {
         $("#icon-name").css("color", "gray");
         $("#icon-name1").css("color", "gray");
-        $("#icon-name2").css("color", "white");
+        $("#icon-name2").css("color", "#e3e3e3e3");
         $("#icon-name3").css("color", "gray");
         $("#icon-name4").css("color", "gray");    
       }
@@ -434,7 +477,7 @@
         $("#icon-name").css("color", "gray");
         $("#icon-name1").css("color", "gray");
         $("#icon-name2").css("color", "gray");
-        $("#icon-name3").css("color", "white");
+        $("#icon-name3").css("color", "#e3e3e3e3");
         $("#icon-name4").css("color", "gray");    
       }
       $("#top-text").html("Online users");
@@ -475,7 +518,7 @@
         $("#icon-name1").css("color", "gray");
         $("#icon-name2").css("color", "gray");
         $("#icon-name3").css("color", "gray");
-        $("#icon-name4").css("color", "white");   
+        $("#icon-name4").css("color", "#e3e3e3e3");   
         $(".tab").css("border", "#fff solid 3px")
         $(".tabcontent").css("border", "#fff solid 3px") 
         $(".tabcontent").css("border-top", "none")
@@ -744,11 +787,21 @@ function toggleTheme() {
                 $(".tab").css("border", "#000 solid 3px")
                 $(".tabcontent").css("border", "#000 solid 3px")
                 $(".tabcontent").css("border-top", "none")
+
             }
  }
 
-
-
+function disableBackground() {
+  if (sessionStorage.getItem("vanta") == "enabled") {
+    sessionStorage.removeItem("vanta");
+    $('#checkbox2').prop('checked', true);
+    reloadPage();
+  } else {
+    sessionStorage.setItem("vanta", "enabled");
+    $('#checkbox2').prop('checked', false);
+    reloadPage();
+  }
+}
  function updateMails() {
         mailz = document.getElementById("mailz").innerHTML;
         mailz = JSON.parse(mailz);
@@ -800,20 +853,7 @@ function toggleTheme() {
   evt.currentTarget.className += " active";
 }
 
-      /*
-VANTA.RINGS({
-    el: "body",
-    mouseControls: true,
-    touchControls: true,
-    gyroControls: false,
-    minHeight: 200.00,
-    minWidth: 200.00,
-    scale: 1.00,
-    scaleMobile: 1.00,
-    backgroundColor: 0x161616,
-    color: 0x2300ff 
-  })
-  */
+  
 
 checkIfInboxIsEmpty();
   </script>

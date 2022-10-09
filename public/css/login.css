@@ -7,7 +7,7 @@ body {
 	background-color : #EAE2B7;
 	}
 	#brandName {
-	font-family : 'Inter', sans-serif;
+	font-family : "Work Sans", sans-serif;
 	font-weight : 700;
 	float : left;
 	padding : 50px 0 0 50px;
@@ -17,13 +17,14 @@ body {
 	user-select : none;
 	}
 	#brandName span {
-	font-family : 'Reem Kufi', sans-serif;
+	font-family : "Work Sans", sans-serif;
 	font-weight : 400;
 	font-size : 1.5vw;
 	text-align : center;
 	color : #FFFFFF;
 	opacity : 0.87;
 	}
+
 	input {
 	display : block;
 	}

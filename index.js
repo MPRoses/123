@@ -17,6 +17,7 @@ let aantalMogelijkheden = 2;
 let amountOfTimesDisabled = 0;
 let mysql = require('mysql-await');
 let mailSend = '';
+let wrongInformation = '';
 let username = '';
 let onlineUsers;
 
@@ -250,7 +251,11 @@ app.get('/home', async function(req, res, next) {
   if (mailSend == 'true'){
     mailzSyntaxx = 'Succesful!';
   } else if (mailSend == 'false') {
-    mailzSyntaxx = 'Bad attempt,not succesful!';
+    if (wrongInformation = 'true') {
+      mailzSyntaxx = 'Wrong information! Change not succesful.';
+    } else {
+      mailzSyntaxx = 'Bad attempt, email not send succesful!';
+    }
   }
   mailSend = '';
   return res.render('home', { gebruikersnaam: req.session.username, mailz: mailz, sendMailz: sendMailz, mailzSyntax: mailzSyntaxx, newBlocked: blockedEmails, onlineUsers: onlineUsers });
@@ -339,12 +344,14 @@ app.post('/changeUsernameForm', function(req, res) {
                   }
                   if (results) {
                     mailSend = 'true';
+                    wrongInformation = 'false';
                     res.redirect('/home');
                   }
                 });
             }
           } else {
             mailSend = 'false';
+            wrongInformation = 'true';
             res.redirect('/home');
           }
         })
@@ -374,12 +381,14 @@ app.post('/changeEmailForm', function(req, res) {
                   }
                   if (results) {
                     mailSend = 'true';
+                    wrongInformation = 'false';
                     res.redirect('/home');
                   }
                 });
             }
           } else {
             mailSend = 'false';
+            wrongInformation = 'true';
             res.redirect('/home');
           }
         })
@@ -408,18 +417,30 @@ app.post('/changePasswordForm', function(req, res) {
                 }
                 if (results) {
                   mailSend = 'true';
+                  wrongInformation = 'false';
                   res.redirect('/home');
                 };
               });
             })
           } else {
             mailSend = 'false';
+            wrongInformation = 'true';
             res.redirect('/home');
           }
         })
       }
     });
   }
+})
+
+app.post('/deleteAccount', function(req, res) {
+  let username = req.session.username;
+  pool.query('DELETE FROM users WHERE username = ?', [username], function(error, results, field) {
+    if (error) throw error;
+    if (results) {
+      res.redirect("/logout")
+    }
+  })
 })
 
 app.listen(3000);

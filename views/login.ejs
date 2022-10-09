@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="/css/login.css" />
+  <link rel="icon" href="./images/favicon.png">
   <script src="./jQuery.js"></script>
 
 </head>
@@ -63,11 +64,11 @@
     </div>
     <form class="register-form" action="registerForm" method="post">
       <input type="text" name="username" placeholder="Enter new username" required> 
-      <input type="password" name="password" title="Password must be 6 characters including 1 uppercase letter, 1 lowercase letter and numeric characters" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" placeholder="Enter new password" required>
-      <input type="text" name="email" placeholder="Enter new email address"/>
+      <input type="password" name="password" title="Password must be 6 characters including 1 uppercase letter, 1 lowercase letter and numeric characters" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" placeholder="Enter new password" required>
+      <input type="text" name="email" placeholder="Enter new email address">
       <div>
         <p class="message" id="termsOfServiceText" style="text-decoration: underline">Terms Of Service</p>
-        <input type="checkbox" id="termsofservice" name="termsofservice" style="justify-content: center; position: relative; left: 0%"required>
+        <input type="checkbox" id="termsofservice" name="termsofservice" style="justify-content: center; position: relative; left: 0%" required>
       </div>
     
       <button id="registerButton">register</button>
@@ -87,22 +88,22 @@
       <%= locals.error %>
     </p>
     <div id="countdownContainer">
-      <p class="message"id="countDown"><%= locals.countDown %></p>
+      <p class="message" id="countDown"><%= locals.countDown %></p>
   </div>
-  <button id="disableForms" style="display: none" <%= locals.disabledValue %>>empty
+  <button id="disableForms" style="display: none" <%= locals.disabledValue %> >empty
   </button>
-  <p id="amountOfTimesDisabled" style="opacity: 0;" >
+  <p id="amountOfTimesDisabled" style="opacity: 0;">
     <%= locals.amountOfTimesDisabled %>
   </p>
 </div>
 <script>
-  $('.message a').click(function(){
-  $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+  $(".message a").click(function(){
+  $("form").animate({height: "toggle", opacity: "toggle"}, "slow");
 });
 $("#remember-me").prop("checked", false);
 
-var burgerMenu = document.getElementById('close-icon');
-  var overlay = document.getElementById('menu');
+var burgerMenu = document.getElementById("close-icon");
+var overlay = document.getElementById('menu');
   burgerMenu.addEventListener('click',function(){
     this.classList.toggle("close");
     overlay.classList.toggle("overlay");

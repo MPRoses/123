@@ -51,6 +51,9 @@
   height : 35px;
   border : white solid 1px;
   }
+  #icon-name1 hover {
+    cursor:default;
+  }
   .profile {
   margin-top : auto;
   }
@@ -121,6 +124,11 @@
   filter : grayscale(1);
   }
   #icon3 {
+    width: 16px;
+    filter : grayscale(100%);
+    color: gray;
+  }
+  #icon4 {
     width: 16px;
     filter : grayscale(100%);
     color: gray;

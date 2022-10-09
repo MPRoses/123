@@ -61,7 +61,7 @@
   width : 270px;
   }
   .brand-name {
-  font-family : Inter;
+  font-family : "Work Sans";
   font-weight : 700;
   float : left;
   padding : 50px 0 0 10px;
@@ -74,11 +74,13 @@
   color : #121212;
   }
   .brand-name span {
-  font-family : 'Reem Kufi', sans-serif;
+  font-family : 'Work Sans', sans-serif;
   font-weight : 400;
   font-size : 1.5vw;
   position : relative;
   left : 25%;
+  top: 20px;
+  margin-bottom: 50px;
   text-align : center;
   color : #121212;
   opacity : 0.87;
@@ -108,6 +110,9 @@
   color : #b8b8b8;
   font-size : 14px;
   }
+  #icon-name1 hover {
+    cursor:default;
+  }
   .folder-icons {
   margin-top : 20px;
   display : flex;
@@ -121,6 +126,11 @@
   filter : grayscale(1);
   }
   #icon3 {
+    width: 16px;
+    filter : grayscale(100%);
+    color: gray;
+  }
+  #icon4 {
     width: 16px;
     filter : grayscale(100%);
     color: gray;

@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <link id="theme" rel="stylesheet" type="text/css" href="/css/home-darkTheme.css" />
-  <link id="theme" rel="stylesheet" type="text/css" href="/css/home-lightTheme.css" disabled />
+  <link id="theme2" rel="stylesheet" type="text/css" href="/css/home-lightTheme.css" disabled />
   <title>101Mailz - Home</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,700,900" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <link rel="icon" href="./images/favicon.png">
   <script src="./jQuery.js"></script>
 </head>
 <body>
@@ -39,17 +41,17 @@
   <div class="left" id="left">
     <div class="sidebar">
       <div class="wrapper">
-        <div class="menu">
-          <img src="https://i.ibb.co/B4Dn7CT/menu.png" />
+        <!--div class="menu">
+
         </div>
-        <!--div class="items">
+        <div class="items">
           <img src="https://i.ibb.co/L8D5T60/light.png" />
           <img src="https://i.ibb.co/zmDbMVZ/diamond.png" />
           <img src="https://i.ibb.co/W5QZ9Fk/envelope.png" />
           <img src="https://i.ibb.co/CnKDBxC/flask.png" />
           <img src="https://i.ibb.co/MGs4Fyn/sent-mail.png" />
           <img src="https://i.ibb.co/zGtDpcp/map.png" />
-        </div-->
+        </div>-->
         <div class="profile">
         </div>
       </div>
@@ -68,7 +70,7 @@
         <div class="folders">Folders</div>
         <div class="folder-icons">
           <div class="icon1">
-            <img src="https://i.ibb.co/qdgf3TJ/envelope.png" id="icon1" />
+            <img src="https://i.ibb.co/qdgf3TJ/envelope.png" id="icon1" alt="envelope"/>
           </div>
           <div id="icon-name1" class="icon-name1" onclick="loadInbox()">Inbox
             <button class="buton-span" id="amount-in-inbox" style="opacity: 0;">
@@ -76,26 +78,26 @@
         </div>
         <div class="folder-icons" onclick="loadSend()">
           <div class="icon1">
-            <img src="https://i.ibb.co/2yLfX9W/sent-mail.png" />
+            <img src="https://i.ibb.co/2yLfX9W/sent-mail.png" alt="sent-mail" />
           </div>
           <div class="icon-name" id="icon-name2">Send mailz</div>
         </div>
         <div class="folder-icons" onclick="loadDeleted()">
           <div class="icon1">
-            <img src="https://i.ibb.co/Lv6TqBG/waste-bin.png" id="icon2" />
+            <img src="https://i.ibb.co/Lv6TqBG/waste-bin.png" id="icon2" alt="waste-bin" />
           </div>
           <div class="icon-name" id="icon-name">Deleted mailz</div>
         </div> 
         <div class="folders">Other</div>   
         <div class="folder-icons" onclick="loadOnlineUsers()">
           <div class="icon1">
-            <img src="https://cdn-icons-png.flaticon.com/512/1307/1307714.png" id="icon3"/>
+            <img src="https://cdn-icons-png.flaticon.com/512/1307/1307714.png" id="icon3" alt="icon"/>
           </div>
           <div class="icon-name1" id="icon-name3" style="color: gray;">Online users</div>
         </div>
           <div class="folder-icons" onclick="loadAccountSettings()">
           <div class="icon1">
-            <img src="https://cdn-icons-png.flaticon.com/512/807/807262.png" id="icon3"/>
+            <img src="https://cdn-icons-png.flaticon.com/512/807/807262.png" id="icon4" alt="icon" />
           </div>
           <div class="icon-name1" id="icon-name4" style="color: gray;">Settings</div>
         </div>
@@ -110,13 +112,13 @@
             Inbox
           </div>
           <div class="top-bar-items">
-            <div class="notif">
+            <div class="notif" style="opacity: 0;">
               <div class="online pink">
               </div>
-              <img src="https://i.ibb.co/VJm73Hz/notifications-button.png" />
+              <img src="https://i.ibb.co/VJm73Hz/notifications-button.png" alt="noti" />
             </div>
-            <img src="https://i.ibb.co/vz4HYJb/envelope.png" />
-            <img src="https://i.ibb.co/52Vkq4M/earth-globe.png" />
+            <img src="https://i.ibb.co/vz4HYJb/envelope.png" alt="envelope"  style="opacity: 0;" />
+            <img src="https://i.ibb.co/52Vkq4M/earth-globe.png" alt="earth"  style="opacity: 0;" />
             <div><a class="standard-text" href="/logout">Logout</a></div>
           </div>
         </div>
@@ -135,7 +137,7 @@
         </div>
 
         <div class="search-arrow">
-          <img src="https://i.ibb.co/cx2t05H/scroll-arrows.png" />
+          <img src="https://i.ibb.co/cx2t05H/scroll-arrows.png" alt="arrow"  />
         </div>
       </div>
     </div>
@@ -174,7 +176,7 @@
       <div class="message" id="sendMail" style="display: none">
           <form action="sendMail" method="post">
             <input id="email-send-address" type="text" name="receiver" class="default-input rounded" placeholder="Email Address" required style="margin: 0;"/>
-            <p>Add a comma between mail addresses to send it to multiple people</p>
+            <p>Add a comma between mail addresses to send the mail to multiple people</p>
             <input id='email-send-subject' type="text" name="subject" class="default-input rounded" placeholder="Subject" required/>
             <textarea id='email-send-text' placeholder="Message" name="message" class="default-input rounded" required></textarea>
             <input class="reply-button" type="submit" value="Send email">
@@ -188,6 +190,7 @@
               <button class="tablinks standard-text" onclick="openCity(event, 'Change username')" id="defaultOpen">Change username</button>
               <button class="tablinks standard-text" onclick="openCity(event, 'Change email')">Change email</button>
               <button class="tablinks standard-text" onclick="openCity(event, 'Change password')">Change password</button>
+              <button class="tablinks standard-text" onclick="openCity(event, 'Delete account')">Delete account</button>
             </div>
             
             <div id="Change username" class="tabcontent">
@@ -225,6 +228,15 @@
                   <input type="submit" value="Change" class="button" style="margin-top: 5px; left: 0; background-color: transparent;">
                 </form>
             </div>
+
+            <div id="Delete account" class="tabcontent">
+              <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+              <b class="title" style="font-size: 1.6rem">Delete account</b>
+                  <form action="deleteAccount" method="POST">                                    
+                    <input class="button" style="margin-top: 5px; left: 0; background-color: transparent;" type="submit" value="DELETE">
+                  </form>
+            </div>
+
             <div class="standard-text">
               <%= locals.error %>
             </div>
@@ -239,7 +251,7 @@
                 </div>
                 </div>
             <div style="position: absolute; bottom: 100px;">
-              <h1 class="title" style="font-size: 1.6rem">Disable background:</h1>
+              <h1 class="title" style="font-size: 1.6rem">Toggle background:</h1>
                 <div class="switch">
                   <label class="theme-switch" for="checkbox2">
                     <input type="checkbox2" id="checkbox2" onclick="disableBackground()" />
@@ -630,7 +642,7 @@
       document.getElementById("email-send-address-reply").value = emailSender;
       document.getElementById("email-send-subject-reply").value = (emailSubject + ' | Reply');
       document.getElementById("message-title").innerHTML = emailSubject;
-      document.getElementById("message-date").innerHTML = (emailTimeSend.getUTCDay() + '/' + emailTimeSend.getUTCMonth() + '   ' + (emailTimeSend.getUTCHours() + 4) + ':' + (emailTimeSend.getUTCMinutes()));
+      document.getElementById("message-date").innerHTML = ((emailTimeSend.getUTCMonth()) + '/' + (emailTimeSend.getUTCMonth() + 1) + '   ' + (emailTimeSend.getUTCHours() + 4) + ':' + (emailTimeSend.getUTCMinutes()));
     }
 
     function showContentOfSendItem(i) {
